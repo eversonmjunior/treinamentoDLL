@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -73,6 +76,9 @@
     </Reference>
     <Reference Include="Unimake.Security.Platform, Version=2022.3.17.1710, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Unimake.Security.Platform.20220317.1710.21\lib\net\Unimake.Security.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Unimake.Unidanfe, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Unimake.Unidanfe.20220701.1415.38\lib\net\Unimake.Unidanfe.dll</HintPath>
     </Reference>
     <Reference Include="Unimake.Utils, Version=2022.7.26.1604, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Unimake.Utils.20220726.1604.57\lib\netstandard2.0\Unimake.Utils.dll</HintPath>

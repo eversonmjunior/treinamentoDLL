@@ -13,6 +13,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using Unimake.Business.DFe.Xml.NFe;
 using Unimake.Security.Platform;
+using XmlMDFe = Unimake.Business.DFe.Xml.MDFe;
+using DANFe = Unimake.Unidanfe;
+using ServicoMDFe = Unimake.Business.DFe.Servicos.MDFe;
+using ServicoNFSe = Unimake.Business.DFe.Servicos.NFSe;
+using ServicoNFCe = Unimake.Business.DFe.Servicos.NFCe;
 using Unimake.Business.DFe.Servicos;
 using Unimake.Business.DFe.Servicos.NFe;
 
@@ -1213,6 +1218,24 @@ namespace TreinamentoDLL
             }
 
         }
+        private void bt_imprimir_danfe_Click(object sender, EventArgs e)
+        {
+            var config = new DANFe.Configurations.UnidanfeConfiguration
+            {
+                Arquivo = @"F:\adm\NFe\Emp0001_Fil002_Envio\Enviadas\Autorizados\202202\41220206117473000150550010000717301715751703-procNFe.xml",
+                Visualizar = true,
+                Imprimir = false,
+                EnviaEmail = false,
+                Configuracao = "PAISAGEM"
+            };
+
+            DANFe.UnidanfeServices.Execute(config);               
+        }
+
+        private void bt_exe_config_danfe_Click(object sender, EventArgs e)
+        {
+            DANFe.UnidanfeServices.ShowConfigurationScreen();
+        }
 
         //Fim Serviços NFe
 
@@ -1501,6 +1524,254 @@ namespace TreinamentoDLL
                 }
             }
         }
+        private void bt_gerar_nfce_contingencia_Click(object sender, EventArgs e)
+        {
+            var xml = new EnviNFe
+            {
+                Versao = "4.00",
+                IdLote = "000000000000001",
+                IndSinc = SimNao.Sim,
+                NFe = new List<NFe>
+                {
+                    new NFe
+                    {
+                        InfNFe = new List<InfNFe>
+                        {
+                            new InfNFe
+                            {
+                                Versao = "4.00",
+                                Ide = new Ide
+                                {
+                                    CUF = UFBrasil.PR,
+                                    NatOp = "VENDA PRODUC.DO ESTABELEC",
+                                    Mod = ModeloDFe.NFCe,
+                                    Serie = 1,
+                                    NNF = 57982,
+                                    DhEmi = DateTime.Now,
+                                    DhSaiEnt = DateTime.Now,
+                                    TpNF = TipoOperacao.Saida,
+                                    IdDest = DestinoOperacao.OperacaoInterna,
+                                    CMunFG = 4118402,
+                                    TpImp = FormatoImpressaoDANFE.NFCe,
+                                    TpEmis = TipoEmissao.ContingenciaOffLine,
+                                    TpAmb = TipoAmbiente.Homologacao,
+                                    FinNFe = FinalidadeNFe.Normal,
+                                    IndFinal = SimNao.Sim,
+                                    IndPres = IndicadorPresenca.OperacaoPresencial,
+                                    ProcEmi = ProcessoEmissao.AplicativoContribuinte,
+                                    VerProc = "TESTE 1.00",
+                                    DhCont = DateTime.Now,
+                                    XJust = "Emitido em contingência devido a problemas técnicos."
+                                },
+                                Emit = new Emit
+                                {
+                                    CNPJ = "06117473000150",
+                                    XNome = "UNIMAKE SOLUCOES CORPORATIVAS LTDA",
+                                    XFant = "UNIMAKE - PARANAVAI",
+                                    EnderEmit = new EnderEmit
+                                    {
+                                        XLgr = "RUA ANTONIO FELIPE",
+                                        Nro = "1500",
+                                        XBairro = "CENTRO",
+                                        CMun = 4118402,
+                                        XMun = "PARANAVAI",
+                                        UF = UFBrasil.PR,
+                                        CEP = "87704030",
+                                        Fone = "04431414900"
+                                    },
+                                    IE = "9032000301",
+                                    IM = "14018",
+                                    CNAE = "6202300",
+                                    CRT = CRT.SimplesNacional
+                                },
+                                Det = new List<Det> {
+                                    new Det
+                                    {
+                                        NItem = 1,
+                                        Prod = new Prod
+                                        {
+                                            CProd = "01042",
+                                            CEAN = "SEM GTIN",
+                                            XProd = "NOTA FISCAL EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+                                            NCM = "84714900",
+                                            CFOP = "5101",
+                                            UCom = "LU",
+                                            QCom = 1.00m,
+                                            VUnCom = 84.9000000000M,
+                                            VProd = 84.90,
+                                            CEANTrib = "SEM GTIN",
+                                            UTrib = "LU",
+                                            QTrib = 1.00m,
+                                            VUnTrib = 84.9000000000M,
+                                            IndTot = SimNao.Sim,
+                                            XPed = "300474",
+                                            NItemPed = 1
+                                        },
+                                        Imposto = new Imposto
+                                        {
+                                            VTotTrib = 12.63,
+                                            ICMS = new List<ICMS> {
+                                                new ICMS
+                                                {
+                                                    ICMSSN102 = new ICMSSN102
+                                                    {
+                                                        Orig = OrigemMercadoria.Nacional,
+                                                        CSOSN = "102"
+                                                    }
+                                                }
+                                            },
+                                            PIS = new PIS
+                                            {
+                                                PISOutr = new PISOutr
+                                                {
+                                                    CST = "99",
+                                                    VBC = 0.00,
+                                                    PPIS = 0.00,
+                                                    VPIS = 0.00
+                                                }
+                                            },
+                                            COFINS = new COFINS
+                                            {
+                                                COFINSOutr = new COFINSOutr
+                                                {
+                                                    CST = "99",
+                                                    VBC = 0.00,
+                                                    PCOFINS = 0.00,
+                                                    VCOFINS = 0.00
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                Total = new Total
+                                {
+                                    ICMSTot = new ICMSTot
+                                    {
+                                        VBC = 0,
+                                        VICMS = 0,
+                                        VICMSDeson = 0,
+                                        VFCP = 0,
+                                        VBCST = 0,
+                                        VST = 0,
+                                        VFCPST = 0,
+                                        VFCPSTRet = 0,
+                                        VProd = 84.90,
+                                        VFrete = 0,
+                                        VSeg = 0,
+                                        VDesc = 0,
+                                        VII = 0,
+                                        VIPI = 0,
+                                        VIPIDevol = 0,
+                                        VPIS = 0,
+                                        VCOFINS = 0,
+                                        VOutro = 0,
+                                        VNF = 84.90,
+                                        VTotTrib = 12.63
+                                    }
+                                },
+                                Transp = new Transp
+                                {
+                                    ModFrete = ModalidadeFrete.SemOcorrenciaTransporte
+                                },
+                                Cobr = new Cobr()
+                                {
+                                    Fat = new Fat
+                                    {
+                                        NFat = "057910",
+                                        VOrig = 84.90,
+                                        VDesc = 0,
+                                        VLiq = 84.90
+                                    },
+                                    Dup = new List<Dup>
+                                    {
+                                        new Dup
+                                        {
+                                            NDup = "001",
+                                            DVenc = DateTime.Now,
+                                            VDup = 84.90
+                                        }
+                                    }
+                                },
+                                Pag = new Pag
+                                {
+                                    DetPag = new List<DetPag>
+                                    {
+                                            new DetPag
+                                            {
+                                                IndPag = IndicadorPagamento.PagamentoVista,
+                                                TPag = MeioPagamento.Dinheiro,
+                                                VPag = 84.90,
+                                            }
+                                    }
+                                },
+                                InfAdic = new InfAdic
+                                {
+                                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
+                                },
+                                InfRespTec = new InfRespTec
+                                {
+                                    CNPJ = "06117473000150",
+                                    XContato = "Wandrey Mundin Ferreira",
+                                    Email = "wandrey@unimake.com.br",
+                                    Fone = "04431414900"
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFCe,
+                CertificadoDigital = CertificadoSelecionado,
+                CSC = "HCJBIRTWGCQ3HVQN7DCA0ZY0P2NYT6FVLPJG",
+                CSCIDToken = 2
+            };
+
+            #region instanciar a classe do serviço de autorização da NFCe para pegar o conteúdo do XML assinado e 100% preparado para transmissão
+
+            var autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
+
+            #endregion instanciar a classe do serviço de autorização da NFCe para pegar o conteúdo do XML assinado e 100% preparado para transmissão
+
+            #region Salvar o XML gerado (Pode-se guardar o conteúdo em string do XML em banco de dados também para resgatar na hora de transmitir.
+
+            StreamWriter streamWriter = null;
+
+            var arqXMLNFCe = Path.Combine(@"D:\testenfe\NFCeOffline", autorizacao.EnviNFe.NFe[0].InfNFe[0].Chave + "-nfe.xml");
+
+            try
+            {
+                streamWriter = File.CreateText(arqXMLNFCe);
+                streamWriter.Write(autorizacao.ConteudoXMLAssinado.GetElementsByTagName("NFe")[0].OuterXml);
+            }
+            finally
+            {
+                if (streamWriter != null)
+                {
+                    streamWriter.Close();
+                }
+            }
+            #endregion
+
+            #region Salvar o XML gerado (Pode-se guardar o conteúdo em string do XML em banco de dados também para resgatar na hora de transmitir.
+
+            var config = new DANFe.Configurations.UnidanfeConfiguration
+            {
+                Arquivo = arqXMLNFCe,
+                Copias = 1,
+                Visualizar = true,
+                Imprimir = false
+            };
+
+            DANFe.UnidanfeServices.Execute(config);
+
+            #endregion
+
+            //Live 8 -> 21:00
+        }
+
         //Fim Serviços NFCe
 
         //Serviços MDFe
@@ -1874,9 +2145,292 @@ namespace TreinamentoDLL
                     }
                 }
             }
+    
 
-
-            //Fim Serviços MDFe
         }
+        private void bt_env_mdfe_sinc_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlMDFe.MDFe
+            {
+                InfMDFe = new XmlMDFe.InfMDFe
+                {
+                    Versao = "3.00",
+                    Ide = new XmlMDFe.Ide
+                    {
+                        CUF = UFBrasil.PR,
+                        TpAmb = TipoAmbiente.Homologacao,
+                        TpEmit = TipoEmitenteMDFe.PrestadorServicoTransporte,
+                        Mod = ModeloDFe.MDFe,
+                        Serie = 1,
+                        NMDF = 861,
+                        CMDF = "01722067",
+                        Modal = ModalidadeTransporteMDFe.Rodoviario,
+                        DhEmi = DateTime.Now,
+                        TpEmis = TipoEmissao.Normal,
+                        ProcEmi = ProcessoEmissao.AplicativoContribuinte,
+                        VerProc = "UNICO V8.0",
+                        UFIni = UFBrasil.PR,
+                        UFFim = UFBrasil.SP,
+                        InfMunCarrega = new List<XmlMDFe.InfMunCarrega>
+                        {
+                            new XmlMDFe.InfMunCarrega
+                            {
+                                CMunCarrega = 4118402,
+                                XMunCarrega = "PARANAVAI"
+                            }
+                        },
+                        DhIniViagem = DateTime.Now,
+                    },
+                    Emit = new XmlMDFe.Emit
+                    {
+                        CNPJ = "06117473000150",
+                        IE = "9032000301",
+                        XNome = "TESTE DE ENVIO DE MDFE",
+                        XFant = "TESTE DE ENVIO DE MDFE",
+                        EnderEmit = new XmlMDFe.EnderEmit
+                        {
+                            XLgr = "RUA TESTE DE SOUZA",
+                            Nro = "01112",
+                            XBairro = "JD. SIMARA",
+                            CMun = 4118402,
+                            XMun = "PARANAVAI",
+                            CEP = "87706111",
+                            UF = UFBrasil.PR,
+                            Fone = "04431421010",
+                        },
+                    },
+                    InfModal = new XmlMDFe.InfModal
+                    {
+                        VersaoModal = "3.00",
+                        Rodo = new XmlMDFe.Rodo
+                        {
+                            InfANTT = new XmlMDFe.InfANTT
+                            {
+                                RNTRC = "99778899",
+                                InfContratante = new List<XmlMDFe.InfContratante>
+                                {
+                                    new XmlMDFe.InfContratante
+                                    {
+                                        CNPJ = "06117473000150"
+                                    },
+                                    new XmlMDFe.InfContratante
+                                    {
+                                        CNPJ = "06117473000150"
+                                    }
+                                }
+                            },
+                            VeicTracao = new XmlMDFe.VeicTracao
+                            {
+                                CInt = "ARR5555",
+                                Placa = "ARR5555",
+                                Tara = 0,
+                                CapKG = 5000,
+                                Prop = new XmlMDFe.Prop
+                                {
+                                    CNPJ = "06117473000150",
+                                    RNTRC = "12345678",
+                                    XNome = "TESTE TESTE TESTE X",
+                                    IE = "1234567890",
+                                    UF = UFBrasil.PR,
+                                    TpProp = TipoProprietarioMDFe.Outros
+                                },
+                                Condutor = new List<XmlMDFe.Condutor>
+                                {
+                                    new XmlMDFe.Condutor
+                                    {
+                                        XNome = "TESTE NOME DO CONDUTOR",
+                                        CPF = "00000000000"
+                                    }
+                                },
+                                TpRod = TipoRodado.Toco,
+                                TpCar = TipoCarroceriaMDFe.FechadaBau,
+                                UF = UFBrasil.PR
+                            },
+                        }
+                    },
+                    InfDoc = new XmlMDFe.InfDocInfMDFe
+                    {
+                        InfMunDescarga = new List<XmlMDFe.InfMunDescarga>
+                        {
+                            new XmlMDFe.InfMunDescarga
+                            {
+                                CMunDescarga = 3505708,
+                                XMunDescarga = "BARUERI",
+                                InfCTe = new List<XmlMDFe.InfMunDescargaInfCTe>
+                                {
+                                    new XmlMDFe.InfMunDescargaInfCTe
+                                    {
+                                        ChCTe = "41200506117473000150570010000001113565666658"
+                                    }
+                                },
+                                InfNFe = new List<XmlMDFe.InfMunDescargaInfNFe>
+                                {
+                                    new XmlMDFe.InfMunDescargaInfNFe
+                                    {
+                                        ChNFe = "12345678901234567890123456789012345678901234",
+                                        InfUnidTransp = new List<XmlMDFe.InfUnidTransp>
+                                        {
+                                            new XmlMDFe.InfUnidTransp
+                                            {
+                                                IdUnidTransp = "122",
+                                                TpUnidTransp = TipoUnidadeTransporte.RodoviarioReboque,
+                                                LacUnidTransp = new List<XmlMDFe.LacUnidTransp>
+                                                {
+                                                    new XmlMDFe.LacUnidTransp
+                                                    {
+                                                        NLacre = "12334"
+                                                    }
+                                                },
+                                                InfUnidCarga = new List<XmlMDFe.InfUnidCarga>
+                                                {
+                                                    new XmlMDFe.InfUnidCarga
+                                                    {
+                                                        TpUnidCarga = TipoUnidadeCarga.Container,
+                                                        IdUnidCarga = "123",
+                                                        LacUnidCarga = new List<XmlMDFe.LacUnidCarga>
+                                                        {
+                                                            new XmlMDFe.LacUnidCarga
+                                                            {
+                                                                NLacre = "3333333"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            new XmlMDFe.InfMunDescarga
+                            {
+                                CMunDescarga = 3550308,
+                                XMunDescarga = "SAO PAULO",
+                                InfCTe = new List<XmlMDFe.InfMunDescargaInfCTe>
+                                {
+                                    new XmlMDFe.InfMunDescargaInfCTe
+                                    {
+                                        ChCTe = "41200506117473000150570010000003335655655666"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    ProdPred = new XmlMDFe.ProdPred
+                    {
+                        TpCarga = TipoCargaMDFe.CargaGeral,
+                        XProd = "TESTE DE PRODUTO PREDOMINANTE",
+                        InfLotacao = new XmlMDFe.InfLotacao
+                        {
+                            InfLocalCarrega = new XmlMDFe.InfLocalCarrega
+                            {
+                                CEP = "87302080"
+                            },
+                            InfLocalDescarrega = new XmlMDFe.InfLocalDescarrega
+                            {
+                                CEP = "25650208"
+                            }
+                        }
+                    },
+                    Seg = new List<XmlMDFe.Seg>
+                    {
+                        new XmlMDFe.Seg
+                        {
+                            InfResp = new XmlMDFe.InfResp
+                            {
+                                RespSeg = ResponsavelSeguroMDFe.EmitenteMDFe,
+                                CNPJ = "06117473000150"
+                            },
+                            InfSeg = new XmlMDFe.InfSeg
+                            {
+                                XSeg = "PORTO SEGURO",
+                                CNPJ = "06117473000150"
+                            },
+                            NApol = "053179456362",
+                            NAver = new List<string>
+                            {
+                                {
+                                    "0000000000000000000000000000000000000000"
+                                },
+                                {
+                                    "0000000000000000000000000000000000000001"
+                                },
+                            }
+                        }
+                    },
+                    Tot = new XmlMDFe.Tot
+                    {
+                        QCTe = 3,
+                        VCarga = 56599.09,
+                        CUnid = CodigoUnidadeMedidaMDFe.KG,
+                        QCarga = 2879.00
+                    },
+                    Lacres = new List<XmlMDFe.Lacre>
+                    {
+                        new XmlMDFe.Lacre
+                        {
+                            NLacre = "1111111"
+                        },
+                        new XmlMDFe.Lacre
+                        {
+                            NLacre = "22222"
+                        }
+                    },
+                    InfAdic = new XmlMDFe.InfAdic
+                    {
+                        InfCpl = "DATA/HORA PREVISTA PARA O INICO DA VIAGEM: 10/08/2020 as 08:00"
+                    },
+                    InfRespTec = new XmlMDFe.InfRespTec
+                    {
+                        CNPJ = "06117473000150",
+                        XContato = "TESTE TESTE TESTE",
+                        Email = "wandrey@unimake.com.br",
+                        Fone = "04431421010",
+                    },
+                },
+            };
+
+            var config = new Configuracao
+            {
+                TipoDFe = TipoDFe.MDFe,
+                TipoEmissao = TipoEmissao.Normal,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var autorizacaoSinc = new ServicoMDFe.AutorizacaoSinc(xml, config);
+            autorizacaoSinc.Executar();
+
+            if(autorizacaoSinc.Result.ProtMDFe.InfProt.CStat == 100)
+            {
+                MessageBox.Show(autorizacaoSinc.Result.ProtMDFe.InfProt.NProt);
+            }
+        }
+
+        //Fim Serviços MDFe
+
+        //Serviços NFSe
+        private void bt_cancelar_nfse_Click(object sender, EventArgs e)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\CancelarNfseEnvio-ped-cannfse.xml");
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.MDFe,
+                CertificadoDigital = CertificadoSelecionado,
+                Servico = Servico.NFSeCancelarNfse,
+                SchemaVersao = "2.02",
+                CodigoMunicipio = 5107909
+            };
+
+            var cancelarNFSe =  new ServicoNFSe.CancelarNfse(xmlDoc, configuracao);
+            cancelarNFSe.Executar();
+
+            //var teste = new ServicoNFSe.CancelamentoNfe(xmlDoc, configuracao); -> todos os serviços NFSe
+
+            MessageBox.Show(cancelarNFSe.RetornoWSString);
+        }
+
+
+        //Fim Serviços NFSe
     }
 }

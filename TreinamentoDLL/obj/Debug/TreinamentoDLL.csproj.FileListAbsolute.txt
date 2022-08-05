@@ -25,3 +25,7 @@ C:\ProjetoLivesDLL\TreinamentoDLL\obj\Debug\TreinamentoDLL.csproj.CopyComplete
 C:\ProjetoLivesDLL\TreinamentoDLL\obj\Debug\TreinamentoDLL.exe
 C:\ProjetoLivesDLL\TreinamentoDLL\obj\Debug\TreinamentoDLL.pdb
 C:\ProjetoLivesDLL\TreinamentoDLL\bin\Debug\Unimake.Extensions.dll
+C:\ProjetoLivesDLL\TreinamentoDLL\bin\Debug\Newtonsoft.Json.dll
+C:\ProjetoLivesDLL\TreinamentoDLL\bin\Debug\Unimake.Unidanfe.dll
+C:\ProjetoLivesDLL\TreinamentoDLL\bin\Debug\Newtonsoft.Json.xml
+C:\ProjetoLivesDLL\TreinamentoDLL\bin\Debug\Unimake.Unidanfe.xml
