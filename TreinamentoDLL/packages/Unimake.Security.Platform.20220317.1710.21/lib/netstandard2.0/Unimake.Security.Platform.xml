@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Unimake.Security.Platform</name>
+    </assembly>
+    <members>
+        <member name="T:Unimake.Security.Platform.CertificadoDigital">
+            <summary>
+            Trabalhar com certificado digital
+            </summary>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.#ctor">
+            <summary>
+            Trabalhar com certificado digital
+            </summary>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.AbrirTelaSelecao">
+            <summary>
+            Abre a tela de dialogo do windows para seleção do certificado digital
+            </summary>
+            <returns>Retorna a coleção de certificados digitais</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.BuscarCertificadoDigital(System.String)">
+            <summary>
+            Busca o certificado digital pelo Serial Number ou Thumb Print no repositório do windows
+            </summary>
+            <param name="serialNumberOrThumbPrint">Serial number ou Thumb print do certificado digital a ser utilizado na localização</param>
+            <returns>Certificado digital</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.CarregarCertificadoDigitalA1(System.Byte[],System.String)">
+            <summary>
+            Carrega o certificado digital pelos bytes do certificado
+            </summary>
+            <param name="bytes">Bytes do certificado para carga do mesmo</param>
+            <param name="senha">Senha utilizada para instalar o certificado, será usada para carga do mesmo</param>
+            <returns>Certificado Digital</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.CarregarCertificadoDigitalA1(System.Byte[],System.String,System.Security.Cryptography.X509Certificates.X509KeyStorageFlags)">
+            <summary>
+            Carrega o certificado digital pelos bytes do certificado
+            </summary>
+            <param name="bytes">Bytes do certificado para carga do mesmo</param>
+            <param name="senha">Senha utilizada para instalar o certificado, será usada para carga do mesmo</param>
+            <param name="keyStorageFlags">Define onde e como importar a chave privada de um certificado X.509. (Uma combinação bit a bit dos valores de enumeração que controlam onde e como importar o certificado.)</param>
+            <returns>Certificado Digital</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.CarregarCertificadoDigitalA1(System.String,System.String)">
+            <summary>
+            Carrega o certificado digital A1 direto do arquivo .PFX
+            </summary>
+            <param name="caminho">Caminho do certificado digital. Ex. c:\certificados\certificado.pfx</param>
+            <param name="senha">Senha utilizada para instalar o arquivo .pfx</param>
+            <returns>Certificado Digital</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.CarregarCertificadoDigitalA1(System.String,System.String,System.Security.Cryptography.X509Certificates.X509KeyStorageFlags)">
+            <summary>
+            Carrega o certificado digital A1 direto do arquivo .PFX
+            </summary>
+            <param name="caminho">Caminho do certificado digital. Ex. c:\certificados\certificado.pfx</param>
+            <param name="senha">Senha utilizada para instalar o arquivo .pfx</param>
+            <param name="keyStorageFlags">Define onde e como importar a chave privada de um certificado X.509. (Uma combinação bit a bit dos valores de enumeração que controlam onde e como importar o certificado.)</param>
+            <returns>Certificado Digital</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.FromBase64(System.String,System.String)">
+            <summary>
+            Converte a string Base64 no certificado
+            </summary>
+            <param name="base64">String base64 convertida pelo método <see cref="M:Unimake.Security.Platform.CertificadoDigital.ToBase64(System.String)"/></param>
+            <param name="password">Senha do certificado</param>
+            <returns>Certificado digital</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.FromBase64(System.String,System.String,System.Security.Cryptography.X509Certificates.X509KeyStorageFlags)">
+            <summary>
+            Converte a string Base64 no certificado
+            </summary>
+            <param name="base64">String base64 convertida pelo método <see cref="M:Unimake.Security.Platform.CertificadoDigital.ToBase64(System.String)"/></param>
+            <param name="password">Senha do certificado</param>
+            <param name="keyStorageFlags">Define onde e como importar a chave privada de um certificado X.509. (Uma combinação bit a bit dos valores de enumeração que controlam onde e como importar o certificado.)</param>
+            <returns>Certificado digital</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.Selecionar">
+            <summary>
+            Executa tela com os certificados digitais instalados para seleção do usuário
+            </summary>
+            <returns>Retorna o certificado digital (null se nenhum certificado foi selecionado ou se o certificado selecionado está com alguma falha)</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.ToBase64(System.String)">
+            <summary>
+            Converte o arquivo do certificado em base664 e retorna
+            </summary>
+            <param name="arquivo">Nome do arquivo</param>
+            <returns>Base64</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.ToByteArray(System.String)">
+            <summary>
+            Converte o arquivo do certificado em um array de bytes
+            </summary>
+            <param name="arquivo">Nome do arquivo</param>
+            <returns>Array de bytes do arquivo do certificado</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.Vencido(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Verifica se o certificado digital está vencido
+            </summary>
+            <param name="certificado">Certificado digital</param>
+            <returns>true = Certificado vencido</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.GetThumbprint(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Retorna o Thumbprint (impressão digital, ID) do certificado digital
+            </summary>
+            <param name="certificado">Certificado que é para pegar a informação</param>
+            <returns>Retorna o Thumbprint</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.GetSubject(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Retorna Subject (dados do proprietário) do certificado digital
+            </summary>
+            <param name="certificado">Certificado que é para pegar a informação</param>
+            <returns>Retorna o Subject</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.GetSerialNumber(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Retorna o SerialNumber (Número de série, ID) do certificado digital
+            </summary>
+            <param name="certificado">Certificado que é para pegar a informação</param>
+            <returns>Retorna o SerialNumber</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.GetNotAfter(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Retorna o Not After (Data de vencimento final do certificado digital) do certificado digital
+            </summary>
+            <param name="certificado">Certificado que é para pegar a informação</param>
+            <returns>Retorna o Not AfterThumbprint</returns>
+        </member>
+        <member name="M:Unimake.Security.Platform.CertificadoDigital.GetNotBefore(System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            Retorna o Not Before (Data de vencimento inicial do certificado digital) do certificado digital
+            </summary>
+            <param name="certificado">Certificado que é para pegar a informação</param>
+            <returns>Retorna o NotBefore</returns>
+        </member>
+        <member name="T:Unimake.Security.Platform.Exceptions.CarregarCertificadoException">
+            <summary>
+            Exceção ao carregar o certificado digital
+            </summary>
+        </member>
+        <member name="M:Unimake.Security.Platform.Exceptions.CarregarCertificadoException.#ctor(System.String)">
+            <summary>
+            Falha ao carregar certificado digital
+            </summary>
+            <param name="message">Mensagem da exceção</param>
+        </member>
+        <member name="T:Unimake.Security.Platform.Exceptions.CertificadoDigitalException">
+            <summary>
+            Exceção ao trabalhar com certificado digital
+            </summary>
+        </member>
+        <member name="M:Unimake.Security.Platform.Exceptions.CertificadoDigitalException.#ctor">
+            <summary>
+            Certificado digital não localizado ou com falhas
+            </summary>
+        </member>
+    </members>
+</doc>
