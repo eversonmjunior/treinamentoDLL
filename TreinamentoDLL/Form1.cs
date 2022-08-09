@@ -13,11 +13,24 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using Unimake.Business.DFe.Xml.NFe;
 using Unimake.Security.Platform;
+using Unimake.Exceptions;
+
 using XmlMDFe = Unimake.Business.DFe.Xml.MDFe;
-using DANFe = Unimake.Unidanfe;
+using XmlNFe = Unimake.Business.DFe.Xml.NFe;
+using XmlCTe = Unimake.Business.DFe.Xml.CTe;
+using XmlCTeOS = Unimake.Business.DFe.Xml.CTeOS;
+using XmlGNRe = Unimake.Business.DFe.Xml.GNRE;
+
+
+using ServicoCTe = Unimake.Business.DFe.Servicos.CTe;
+using ServicoCTeOS = Unimake.Business.DFe.Servicos.CTeOS;
+using ServicoGNRe = Unimake.Business.DFe.Servicos.GNRE;
 using ServicoMDFe = Unimake.Business.DFe.Servicos.MDFe;
 using ServicoNFSe = Unimake.Business.DFe.Servicos.NFSe;
 using ServicoNFCe = Unimake.Business.DFe.Servicos.NFCe;
+using ServicoNFe = Unimake.Business.DFe.Servicos.NFe;
+
+using DANFe = Unimake.Unidanfe;
 using Unimake.Business.DFe.Servicos;
 using Unimake.Business.DFe.Servicos.NFe;
 
@@ -1767,9 +1780,125 @@ namespace TreinamentoDLL
 
             DANFe.UnidanfeServices.Execute(config);
 
-            #endregion
+            #endregion 
+        }
+        private void bt_env_nfce_contingencia_offline_Click(object sender, EventArgs e)
+        {
+            var arquivos = Directory.GetFiles(@"D:\testenfe\NFCeOffline");
 
-            //Live 8 -> 21:00
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFCe,
+                CertificadoDigital = CertificadoSelecionado,
+                CSC = "HCJBIRTWGCQ3HVQN7DCA0ZY0P2NYT6FVLPJG",
+                CSCIDToken = 2
+            };
+
+            foreach (var item in arquivos)
+            {
+                var doc = new XmlDocument();
+                doc.Load(item);
+
+                var xml = new XmlNFe.EnviNFe
+                {
+                    IdLote = "000000000000001",
+                    Versao = "4.00",
+                    IndSinc = SimNao.Sim,
+                    NFe = new List<XmlNFe.NFe>
+                    {
+                        XMLUtility.Deserializar<XmlNFe.NFe>(doc)
+                    }                    
+                };
+
+                ServicoNFCe.Autorizacao autorizacao = null;
+                try
+                {
+                    autorizacao = new ServicoNFCe.Autorizacao(xml, configuracao);
+                    autorizacao.Executar();
+                }
+                catch (ValidarXMLException)
+                {
+                    //Retorno o erro para o usuário
+                }
+                catch (Exception)
+                {
+                    //Entro em contingência
+                }
+
+                //Fazer os tratamentos dos status, se autorizado ou rejeitado
+                MessageBox.Show(autorizacao.Result.ProtNFe.InfProt.CStat.ToString() + " " + autorizacao.Result.ProtNFe.InfProt.XMotivo);
+
+                if (autorizacao != null)
+                {
+                    if (autorizacao.Result.CStat == 108) //Serviço Paralisado Temporariamente
+                    {
+                        //Gerar novamente o XML já com as tags de contingência
+                    }
+                    if (autorizacao.Result.CStat == 109) //Serviço Paralisado sem previsão de retorno
+                    {
+                        //Gerar novamente o XML já com as tags de contingência
+                    }
+                }
+            }
+        }
+        private void bt_env_evento_canc_substituicao_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlNFe.EnvEvento
+            {
+                Versao = "1.00",
+                IdLote = "000000000000001",
+                Evento = new List<XmlNFe.Evento>
+                {
+                    new XmlNFe.Evento
+                    {
+                        Versao = "1.00",
+                        InfEvento = new XmlNFe.InfEvento(new XmlNFe.DetEventoCancSubst
+                        {
+                            Versao = "1.00",
+                            COrgaoAutor = UFBrasil.PR,
+                            TpAutor = TipoAutor.EmpresaEmitente,
+                            VerAplic = "Unico ERP 9",
+                            NProt = "141190000660363",
+                            XJust = "Justificativa de teste de cancelamento",
+                            ChNFeRef = "00000000000000000000000000000000000000000000"
+                        })
+                        {
+                            COrgao = UFBrasil.PR,
+                            ChNFe = "41190806117473000150550010000579131943463890",
+                            CNPJ = "06117473000150",
+                            DhEvento = DateTime.Now,
+                            TpEvento = TipoEventoNFe.CancelamentoPorSubstituicao,
+                            NSeqEvento = 1,
+                            VerEvento = "1.00",
+                            TpAmb = TipoAmbiente.Homologacao
+                        }
+                    }
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFCe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var recepcaoEvento = new ServicoNFCe.RecepcaoEvento(xml, configuracao);
+            recepcaoEvento.Executar();
+
+            if (recepcaoEvento.Result.CStat == 128) //Lote de evento processado com sucesso
+            {
+                switch (recepcaoEvento.Result.RetEvento[0].InfEvento.CStat)
+                {
+                    case 135: //Evento homologado
+                    case 155: //Evento homologado fora do prazo
+                        recepcaoEvento.GravarXmlDistribuicao(@"d:\testenfe");
+                        break;
+
+                    default:
+                        break;
+                        //Tratamentos caso haja rejeição
+                }
+            }
         }
 
         //Fim Serviços NFCe
@@ -2404,6 +2533,102 @@ namespace TreinamentoDLL
                 MessageBox.Show(autorizacaoSinc.Result.ProtMDFe.InfProt.NProt);
             }
         }
+        private void bt_enviar_evento_cancelamento_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlMDFe.EventoMDFe
+            {
+                Versao = "3.00",
+                InfEvento = new XmlMDFe.InfEvento(new XmlMDFe.DetEventoCanc
+                {
+                    NProt = "141200000007987",
+                    VersaoEvento = "3.00",
+                    XJust = "Teste de cancelamento do MDFe"
+                })
+                {
+                    COrgao = UFBrasil.PR,
+                    ChMDFe = "41200210859283000185570010000005671227070615",
+                    CNPJ = "10859283000185",
+                    DhEvento = DateTime.Now,
+                    TpEvento = TipoEventoMDFe.Cancelamento,
+                    NSeqEvento = 1,
+                    TpAmb = TipoAmbiente.Homologacao
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.MDFe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var recepcaoEvento = new ServicoMDFe.RecepcaoEvento(xml, configuracao);
+            recepcaoEvento.Executar();
+
+            MessageBox.Show(recepcaoEvento.RetornoWSString);
+            MessageBox.Show(recepcaoEvento.Result.InfEvento.CStat + " - " + recepcaoEvento.Result.InfEvento.XMotivo);
+
+            switch (recepcaoEvento.Result.InfEvento.CStat)
+            {
+                case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo MDFecom situação diferente de Autorizada.
+                case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo MDFe
+                case 136: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento ao respectivo MDFe prejudicado
+                    recepcaoEvento.GravarXmlDistribuicao(@"d:\testenfe");
+                    break;
+
+                default:
+                    //Evento rejeitado, fazer devidos tratamentos
+                    break;
+            }
+        }
+        private void bt_enviar_evento_encerramento_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlMDFe.EventoMDFe
+            {
+                Versao = "3.00",
+                InfEvento = new XmlMDFe.InfEvento(new XmlMDFe.DetEventoEncMDFe
+                {
+                    NProt = "141200000007987",
+                    VersaoEvento = "3.00",
+                    CMun = 3106200,
+                    CUF = UFBrasil.MG,
+                    DtEnc = DateTime.Now
+                })
+                {
+                    COrgao = UFBrasil.PR,
+                    ChMDFe = "41200210859283000185570010000005671227070615",
+                    CNPJ = "10859283000185",
+                    DhEvento = DateTime.Now,
+                    TpEvento = TipoEventoMDFe.Encerramento,
+                    NSeqEvento = 1,
+                    TpAmb = TipoAmbiente.Homologacao
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.MDFe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var recepcaoEvento = new ServicoMDFe.RecepcaoEvento(xml, configuracao);
+            recepcaoEvento.Executar();
+
+            MessageBox.Show(recepcaoEvento.RetornoWSString);
+            MessageBox.Show(recepcaoEvento.Result.InfEvento.CStat + " - " + recepcaoEvento.Result.InfEvento.XMotivo);
+
+            switch (recepcaoEvento.Result.InfEvento.CStat)
+            {
+                case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo MDFecom situação diferente de Autorizada.
+                case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo MDFe
+                case 136: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento ao respectivo MDFe prejudicado
+                    recepcaoEvento.GravarXmlDistribuicao(@"d:\testenfe");
+                    break;
+
+                default:
+                    //Evento rejeitado, fazer devidos tratamentos
+                    break;
+            }
+        }
 
         //Fim Serviços MDFe
 
@@ -2430,7 +2655,158 @@ namespace TreinamentoDLL
             MessageBox.Show(cancelarNFSe.RetornoWSString);
         }
 
+        private void bt_env_rps_sinc_Click(object sender, EventArgs e)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\GerarNfseEnvio-env-loterps.xml");
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFSe, 
+                CertificadoDigital = CertificadoSelecionado,
+                Servico = Servico.NFSeGerarNfse,
+                SchemaVersao = "2.04",
+                CodigoMunicipio = 2933307
+            };
+
+            var gerarNfse = new ServicoNFSe.GerarNfse(xmlDoc, configuracao);
+            gerarNfse.Executar();
+
+            MessageBox.Show(gerarNfse.RetornoWSString);
+        }
+
+        private void bt_env_lote_rps_sinc_Click(object sender, EventArgs e)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\EnviarLoteRpsSincronoEnvio-env-loterps.xml");
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFSe,
+                CertificadoDigital = CertificadoSelecionado,
+                Servico = Servico.NFSeRecepcionarLoteRpsSincrono,
+                SchemaVersao = "2.04",
+                TipoAmbiente = TipoAmbiente.Producao,
+                CodigoMunicipio = 2933307
+            };
+
+            var recepcionarLoteRpsSincrono = new ServicoNFSe.RecepcionarLoteRpsSincrono(xmlDoc, configuracao);
+            recepcionarLoteRpsSincrono.Executar();
+
+            MessageBox.Show(recepcionarLoteRpsSincrono.RetornoWSString);
+        }
+
+        private void bt_env_lote_rps_assinc_Click(object sender, EventArgs e)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\EnviarLoteRpsEnvio-env-loterps.xml");
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFSe,
+                CertificadoDigital = CertificadoSelecionado,
+                Servico = Servico.NFSeRecepcionarLoteRps,
+                SchemaVersao = "2.04",
+                TipoAmbiente = TipoAmbiente.Producao,
+                CodigoMunicipio = 2933307
+            };
+
+            var recepcionarLoteRps = new ServicoNFSe.RecepcionarLoteRps(xmlDoc, configuracao);
+            recepcionarLoteRps.Executar();
+
+            MessageBox.Show(recepcionarLoteRps.RetornoWSString);
+        }
+
+        private void bt_consultar_lote_rps_Click(object sender, EventArgs e)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\ConsultarLoteRpsEnvio-ped-loterps.xml");
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFSe,
+                CertificadoDigital = CertificadoSelecionado,
+                Servico = Servico.NFSeConsultarLoteRps,
+                SchemaVersao = "2.04",
+                TipoAmbiente = TipoAmbiente.Producao,
+                CodigoMunicipio = 2933307
+            };
+
+            var consultarLoteRps = new ServicoNFSe.ConsultarLoteRps(xmlDoc, configuracao);
+            consultarLoteRps.Executar();
+
+            MessageBox.Show(consultarLoteRps.RetornoWSString);
+        }
+
+        private void bt_consultar_nfse_por_rps_Click(object sender, EventArgs e)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\ConsultarNfseRpsEnvio-ped-sitnfserps.xml");
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFSe, 
+                CertificadoDigital = CertificadoSelecionado,
+                Servico = Servico.NFSeConsultarNfsePorRps,
+                SchemaVersao = "2.04",
+                TipoAmbiente = TipoAmbiente.Producao,
+                CodigoMunicipio = 2933307
+            };
+
+            var consultarNfsePorRps = new ServicoNFSe.ConsultarNfsePorRps(xmlDoc, configuracao);
+            consultarNfsePorRps.Executar();
+
+            MessageBox.Show(consultarNfsePorRps.RetornoWSString);
+        }
+
+        private void bt_substituir_nfse_Click(object sender, EventArgs e)
+        {
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\SubstituirNfseEnvio-ped-substnfse.xml");
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFSe,
+                CertificadoDigital = CertificadoSelecionado,
+                Servico = Servico.NFSeSubstituirNfse,
+                SchemaVersao = "2.04",
+                TipoAmbiente = TipoAmbiente.Producao,
+                CodigoMunicipio = 2933307
+            };
+
+            var substituirNFse = new ServicoNFSe.SubstituirNfse(xmlDoc, configuracao);
+            substituirNFse.Executar();
+
+            MessageBox.Show(substituirNFse.RetornoWSString);
+        }
+
 
         //Fim Serviços NFSe
+
+
+        //Serviços CTe e CTeOs
+        private void bt_consulta_status_cte_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlCTe.ConsStatServCte
+            {
+                Versao = "3.00",
+                TpAmb = TipoAmbiente.Homologacao
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.CTe,
+                CodigoUF = (int)UFBrasil.PR,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var statusServico = new ServicoCTe.StatusServico(xml, configuracao);
+            statusServico.Executar();
+
+            MessageBox.Show(statusServico.Result.CStat + " - " + statusServico.Result.XMotivo);
+        }
+
+
+        //Fim Serviços CTe e CTeOs
     }
 }
