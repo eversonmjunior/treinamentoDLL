@@ -61,7 +61,6 @@
             this.bt_env_evento_canc_substituicao = new System.Windows.Forms.Button();
             this.bt_gerar_nfce_contingencia = new System.Windows.Forms.Button();
             this.bt_resgatar_xml_da_nfce = new System.Windows.Forms.Button();
-            this.bt_resgatar_xml_da_nfe = new System.Windows.Forms.Button();
             this.bt_enviar_evento_cancelamento = new System.Windows.Forms.Button();
             this.bt_consultar_nfse_por_rps = new System.Windows.Forms.Button();
             this.bt_consultar_lote_rps = new System.Windows.Forms.Button();
@@ -70,6 +69,19 @@
             this.bt_substituir_nfse = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.bt_consulta_status_cte = new System.Windows.Forms.Button();
+            this.bt_enviar_cte_assinc_lote = new System.Windows.Forms.Button();
+            this.bt_enviar_cteos_sinc = new System.Windows.Forms.Button();
+            this.bt_enviar_evento_epec = new System.Windows.Forms.Button();
+            this.bt_recuperar_xml_nfe_distribuicao = new System.Windows.Forms.Button();
+            this.bt_recuperar_xml_nfe_distribuicao_2 = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.bt_imprimir_danfe_etiqueta = new System.Windows.Forms.Button();
+            this.bt_carregar_cert_a3 = new System.Windows.Forms.Button();
+            this.bt_evento_canc_cte = new System.Windows.Forms.Button();
+            this.bt_evento_canc_cteos = new System.Windows.Forms.Button();
+            this.bt_evento_cce_e_cte = new System.Windows.Forms.Button();
+            this.bt_evento_cce_e_cteos = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -449,17 +461,6 @@
             this.bt_resgatar_xml_da_nfce.Text = "Resgatar o XML da NFCe, sem as tags de lote";
             this.bt_resgatar_xml_da_nfce.UseVisualStyleBackColor = false;
             // 
-            // bt_resgatar_xml_da_nfe
-            // 
-            this.bt_resgatar_xml_da_nfe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.bt_resgatar_xml_da_nfe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_resgatar_xml_da_nfe.Location = new System.Drawing.Point(12, 478);
-            this.bt_resgatar_xml_da_nfe.Name = "bt_resgatar_xml_da_nfe";
-            this.bt_resgatar_xml_da_nfe.Size = new System.Drawing.Size(180, 39);
-            this.bt_resgatar_xml_da_nfe.TabIndex = 33;
-            this.bt_resgatar_xml_da_nfe.Text = "Resgatar o XML da NFe, sem as tags de lote";
-            this.bt_resgatar_xml_da_nfe.UseVisualStyleBackColor = false;
-            // 
             // bt_enviar_evento_cancelamento
             // 
             this.bt_enviar_evento_cancelamento.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -512,12 +513,13 @@
             // 
             this.bt_consultar_mdfe_nao_encerrados.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.bt_consultar_mdfe_nao_encerrados.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_consultar_mdfe_nao_encerrados.Location = new System.Drawing.Point(432, 277);
+            this.bt_consultar_mdfe_nao_encerrados.Location = new System.Drawing.Point(432, 199);
             this.bt_consultar_mdfe_nao_encerrados.Name = "bt_consultar_mdfe_nao_encerrados";
             this.bt_consultar_mdfe_nao_encerrados.Size = new System.Drawing.Size(180, 23);
             this.bt_consultar_mdfe_nao_encerrados.TabIndex = 37;
             this.bt_consultar_mdfe_nao_encerrados.Text = "Consultar MDFe Não Encerrado";
             this.bt_consultar_mdfe_nao_encerrados.UseVisualStyleBackColor = false;
+            this.bt_consultar_mdfe_nao_encerrados.Click += new System.EventHandler(this.bt_consultar_mdfe_nao_encerrados_Click);
             // 
             // bt_substituir_nfse
             // 
@@ -552,12 +554,178 @@
             this.bt_consulta_status_cte.UseVisualStyleBackColor = false;
             this.bt_consulta_status_cte.Click += new System.EventHandler(this.bt_consulta_status_cte_Click);
             // 
+            // bt_enviar_cte_assinc_lote
+            // 
+            this.bt_enviar_cte_assinc_lote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.bt_enviar_cte_assinc_lote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_enviar_cte_assinc_lote.Location = new System.Drawing.Point(839, 54);
+            this.bt_enviar_cte_assinc_lote.Name = "bt_enviar_cte_assinc_lote";
+            this.bt_enviar_cte_assinc_lote.Size = new System.Drawing.Size(180, 23);
+            this.bt_enviar_cte_assinc_lote.TabIndex = 41;
+            this.bt_enviar_cte_assinc_lote.Text = "Enviar CTe Assíncrono em Lote";
+            this.bt_enviar_cte_assinc_lote.UseVisualStyleBackColor = false;
+            this.bt_enviar_cte_assinc_lote.Click += new System.EventHandler(this.bt_enviar_cte_assinc_lote_Click);
+            // 
+            // bt_enviar_cteos_sinc
+            // 
+            this.bt_enviar_cteos_sinc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.bt_enviar_cteos_sinc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_enviar_cteos_sinc.Location = new System.Drawing.Point(839, 83);
+            this.bt_enviar_cteos_sinc.Name = "bt_enviar_cteos_sinc";
+            this.bt_enviar_cteos_sinc.Size = new System.Drawing.Size(180, 23);
+            this.bt_enviar_cteos_sinc.TabIndex = 42;
+            this.bt_enviar_cteos_sinc.Text = "Enviar CTeOS Síncrono";
+            this.bt_enviar_cteos_sinc.UseVisualStyleBackColor = false;
+            this.bt_enviar_cteos_sinc.Click += new System.EventHandler(this.bt_enviar_cteos_sinc_Click);
+            // 
+            // bt_enviar_evento_epec
+            // 
+            this.bt_enviar_evento_epec.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.bt_enviar_evento_epec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_enviar_evento_epec.Location = new System.Drawing.Point(12, 424);
+            this.bt_enviar_evento_epec.Name = "bt_enviar_evento_epec";
+            this.bt_enviar_evento_epec.Size = new System.Drawing.Size(180, 23);
+            this.bt_enviar_evento_epec.TabIndex = 43;
+            this.bt_enviar_evento_epec.Text = "Enviar Evento EPEC";
+            this.bt_enviar_evento_epec.UseVisualStyleBackColor = false;
+            this.bt_enviar_evento_epec.Click += new System.EventHandler(this.bt_enviar_evento_epec_Click);
+            // 
+            // bt_recuperar_xml_nfe_distribuicao
+            // 
+            this.bt_recuperar_xml_nfe_distribuicao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.bt_recuperar_xml_nfe_distribuicao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_recuperar_xml_nfe_distribuicao.Location = new System.Drawing.Point(12, 527);
+            this.bt_recuperar_xml_nfe_distribuicao.Name = "bt_recuperar_xml_nfe_distribuicao";
+            this.bt_recuperar_xml_nfe_distribuicao.Size = new System.Drawing.Size(180, 23);
+            this.bt_recuperar_xml_nfe_distribuicao.TabIndex = 44;
+            this.bt_recuperar_xml_nfe_distribuicao.Text = "Recuperar XML Distribuição";
+            this.bt_recuperar_xml_nfe_distribuicao.UseVisualStyleBackColor = false;
+            this.bt_recuperar_xml_nfe_distribuicao.Click += new System.EventHandler(this.bt_recuperar_xml_nfe_distribuicao_Click);
+            // 
+            // bt_recuperar_xml_nfe_distribuicao_2
+            // 
+            this.bt_recuperar_xml_nfe_distribuicao_2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.bt_recuperar_xml_nfe_distribuicao_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_recuperar_xml_nfe_distribuicao_2.Location = new System.Drawing.Point(12, 556);
+            this.bt_recuperar_xml_nfe_distribuicao_2.Name = "bt_recuperar_xml_nfe_distribuicao_2";
+            this.bt_recuperar_xml_nfe_distribuicao_2.Size = new System.Drawing.Size(180, 23);
+            this.bt_recuperar_xml_nfe_distribuicao_2.TabIndex = 45;
+            this.bt_recuperar_xml_nfe_distribuicao_2.Text = "Recuperar XML Distribuição 2";
+            this.bt_recuperar_xml_nfe_distribuicao_2.UseVisualStyleBackColor = false;
+            this.bt_recuperar_xml_nfe_distribuicao_2.Click += new System.EventHandler(this.bt_recuperar_xml_nfe_distribuicao_2_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1032, 9);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(48, 13);
+            this.label8.TabIndex = 46;
+            this.label8.Text = "Diversos";
+            // 
+            // bt_imprimir_danfe_etiqueta
+            // 
+            this.bt_imprimir_danfe_etiqueta.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_imprimir_danfe_etiqueta.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_imprimir_danfe_etiqueta.Location = new System.Drawing.Point(1035, 54);
+            this.bt_imprimir_danfe_etiqueta.Name = "bt_imprimir_danfe_etiqueta";
+            this.bt_imprimir_danfe_etiqueta.Size = new System.Drawing.Size(180, 23);
+            this.bt_imprimir_danfe_etiqueta.TabIndex = 47;
+            this.bt_imprimir_danfe_etiqueta.Text = "Imprimir DANFe Etiqueta";
+            this.bt_imprimir_danfe_etiqueta.UseVisualStyleBackColor = false;
+            this.bt_imprimir_danfe_etiqueta.Click += new System.EventHandler(this.bt_imprimir_danfe_etiqueta_Click);
+            // 
+            // bt_carregar_cert_a3
+            // 
+            this.bt_carregar_cert_a3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_carregar_cert_a3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_carregar_cert_a3.Location = new System.Drawing.Point(1035, 25);
+            this.bt_carregar_cert_a3.Name = "bt_carregar_cert_a3";
+            this.bt_carregar_cert_a3.Size = new System.Drawing.Size(180, 23);
+            this.bt_carregar_cert_a3.TabIndex = 48;
+            this.bt_carregar_cert_a3.Text = "Carregar Certificado A3 com PIN";
+            this.bt_carregar_cert_a3.UseVisualStyleBackColor = false;
+            this.bt_carregar_cert_a3.Click += new System.EventHandler(this.bt_carregar_cert_a3_Click);
+            // 
+            // bt_evento_canc_cte
+            // 
+            this.bt_evento_canc_cte.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.bt_evento_canc_cte.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_evento_canc_cte.Location = new System.Drawing.Point(839, 112);
+            this.bt_evento_canc_cte.Name = "bt_evento_canc_cte";
+            this.bt_evento_canc_cte.Size = new System.Drawing.Size(180, 23);
+            this.bt_evento_canc_cte.TabIndex = 49;
+            this.bt_evento_canc_cte.Text = "Evento de Cancelamento CTe";
+            this.bt_evento_canc_cte.UseVisualStyleBackColor = false;
+            this.bt_evento_canc_cte.Click += new System.EventHandler(this.bt_evento_canc_cte_Click);
+            // 
+            // bt_evento_canc_cteos
+            // 
+            this.bt_evento_canc_cteos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.bt_evento_canc_cteos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_evento_canc_cteos.Location = new System.Drawing.Point(839, 141);
+            this.bt_evento_canc_cteos.Name = "bt_evento_canc_cteos";
+            this.bt_evento_canc_cteos.Size = new System.Drawing.Size(180, 23);
+            this.bt_evento_canc_cteos.TabIndex = 50;
+            this.bt_evento_canc_cteos.Text = "Evento de Cancelamento CTeOS";
+            this.bt_evento_canc_cteos.UseVisualStyleBackColor = false;
+            this.bt_evento_canc_cteos.Click += new System.EventHandler(this.bt_evento_canc_cteos_Click);
+            // 
+            // bt_evento_cce_e_cte
+            // 
+            this.bt_evento_cce_e_cte.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.bt_evento_cce_e_cte.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_evento_cce_e_cte.Location = new System.Drawing.Point(839, 170);
+            this.bt_evento_cce_e_cte.Name = "bt_evento_cce_e_cte";
+            this.bt_evento_cce_e_cte.Size = new System.Drawing.Size(180, 23);
+            this.bt_evento_cce_e_cte.TabIndex = 51;
+            this.bt_evento_cce_e_cte.Text = "Evento de CCe e CTe";
+            this.bt_evento_cce_e_cte.UseVisualStyleBackColor = false;
+            this.bt_evento_cce_e_cte.Click += new System.EventHandler(this.bt_evento_cce_e_cte_Click);
+            // 
+            // bt_evento_cce_e_cteos
+            // 
+            this.bt_evento_cce_e_cteos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.bt_evento_cce_e_cteos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_evento_cce_e_cteos.Location = new System.Drawing.Point(839, 199);
+            this.bt_evento_cce_e_cteos.Name = "bt_evento_cce_e_cteos";
+            this.bt_evento_cce_e_cteos.Size = new System.Drawing.Size(180, 23);
+            this.bt_evento_cce_e_cteos.TabIndex = 52;
+            this.bt_evento_cce_e_cteos.Text = "Evento de CCe e CTeOS";
+            this.bt_evento_cce_e_cteos.UseVisualStyleBackColor = false;
+            this.bt_evento_cce_e_cteos.Click += new System.EventHandler(this.bt_evento_cce_e_cteos_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(1035, 83);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(180, 38);
+            this.button1.TabIndex = 53;
+            this.button1.Text = "Formas de Trabalhar com Certificado Digital";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1031, 533);
+            this.ClientSize = new System.Drawing.Size(1229, 605);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.bt_evento_cce_e_cteos);
+            this.Controls.Add(this.bt_evento_cce_e_cte);
+            this.Controls.Add(this.bt_evento_canc_cteos);
+            this.Controls.Add(this.bt_evento_canc_cte);
+            this.Controls.Add(this.bt_carregar_cert_a3);
+            this.Controls.Add(this.bt_imprimir_danfe_etiqueta);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.bt_recuperar_xml_nfe_distribuicao_2);
+            this.Controls.Add(this.bt_recuperar_xml_nfe_distribuicao);
+            this.Controls.Add(this.bt_enviar_evento_epec);
+            this.Controls.Add(this.bt_enviar_cteos_sinc);
+            this.Controls.Add(this.bt_enviar_cte_assinc_lote);
             this.Controls.Add(this.bt_consulta_status_cte);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.bt_substituir_nfse);
@@ -566,7 +734,6 @@
             this.Controls.Add(this.bt_consultar_lote_rps);
             this.Controls.Add(this.bt_consultar_nfse_por_rps);
             this.Controls.Add(this.bt_enviar_evento_cancelamento);
-            this.Controls.Add(this.bt_resgatar_xml_da_nfe);
             this.Controls.Add(this.bt_resgatar_xml_da_nfce);
             this.Controls.Add(this.bt_gerar_nfce_contingencia);
             this.Controls.Add(this.bt_env_evento_canc_substituicao);
@@ -606,6 +773,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Serviços";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -646,7 +814,6 @@
         private System.Windows.Forms.Button bt_env_evento_canc_substituicao;
         private System.Windows.Forms.Button bt_gerar_nfce_contingencia;
         private System.Windows.Forms.Button bt_resgatar_xml_da_nfce;
-        private System.Windows.Forms.Button bt_resgatar_xml_da_nfe;
         private System.Windows.Forms.Button bt_enviar_evento_cancelamento;
         private System.Windows.Forms.Button bt_consultar_nfse_por_rps;
         private System.Windows.Forms.Button bt_consultar_lote_rps;
@@ -655,6 +822,19 @@
         private System.Windows.Forms.Button bt_substituir_nfse;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button bt_consulta_status_cte;
+        private System.Windows.Forms.Button bt_enviar_cte_assinc_lote;
+        private System.Windows.Forms.Button bt_enviar_cteos_sinc;
+        private System.Windows.Forms.Button bt_enviar_evento_epec;
+        private System.Windows.Forms.Button bt_recuperar_xml_nfe_distribuicao;
+        private System.Windows.Forms.Button bt_recuperar_xml_nfe_distribuicao_2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button bt_imprimir_danfe_etiqueta;
+        private System.Windows.Forms.Button bt_carregar_cert_a3;
+        private System.Windows.Forms.Button bt_evento_canc_cte;
+        private System.Windows.Forms.Button bt_evento_canc_cteos;
+        private System.Windows.Forms.Button bt_evento_cce_e_cte;
+        private System.Windows.Forms.Button bt_evento_cce_e_cteos;
+        private System.Windows.Forms.Button button1;
     }
 }
 

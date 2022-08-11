@@ -1,5 +1,5 @@
 [versao]
-Data=05/11/2021
+Data=15/03/2021
 
 [BR]
 NF-e=https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&tipoConteudo=7PhJ+gAVw2g=
