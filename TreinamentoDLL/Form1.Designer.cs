@@ -60,7 +60,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.bt_env_evento_canc_substituicao = new System.Windows.Forms.Button();
             this.bt_gerar_nfce_contingencia = new System.Windows.Forms.Button();
-            this.bt_resgatar_xml_da_nfce = new System.Windows.Forms.Button();
             this.bt_enviar_evento_cancelamento = new System.Windows.Forms.Button();
             this.bt_consultar_nfse_por_rps = new System.Windows.Forms.Button();
             this.bt_consultar_lote_rps = new System.Windows.Forms.Button();
@@ -82,6 +81,10 @@
             this.bt_evento_cce_e_cte = new System.Windows.Forms.Button();
             this.bt_evento_cce_e_cteos = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.bt_distribuicao_dfe = new System.Windows.Forms.Button();
+            this.bt_manisfestacao_dest = new System.Windows.Forms.Button();
+            this.bt_enviar_evento_canc_nfce = new System.Windows.Forms.Button();
+            this.pb_consulta_dfe = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // label1
@@ -121,7 +124,7 @@
             // 
             this.bt_env_nfe_sinc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_env_nfe_sinc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_env_nfe_sinc.Location = new System.Drawing.Point(12, 117);
+            this.bt_env_nfe_sinc.Location = new System.Drawing.Point(12, 122);
             this.bt_env_nfe_sinc.Name = "bt_env_nfe_sinc";
             this.bt_env_nfe_sinc.Size = new System.Drawing.Size(180, 23);
             this.bt_env_nfe_sinc.TabIndex = 3;
@@ -133,7 +136,7 @@
             // 
             this.bt_env_nfe_assinc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_env_nfe_assinc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_env_nfe_assinc.Location = new System.Drawing.Point(12, 146);
+            this.bt_env_nfe_assinc.Location = new System.Drawing.Point(12, 151);
             this.bt_env_nfe_assinc.Name = "bt_env_nfe_assinc";
             this.bt_env_nfe_assinc.Size = new System.Drawing.Size(180, 23);
             this.bt_env_nfe_assinc.TabIndex = 4;
@@ -145,7 +148,7 @@
             // 
             this.bt_env_nfe_assinc_lote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_env_nfe_assinc_lote.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_env_nfe_assinc_lote.Location = new System.Drawing.Point(12, 175);
+            this.bt_env_nfe_assinc_lote.Location = new System.Drawing.Point(12, 180);
             this.bt_env_nfe_assinc_lote.Name = "bt_env_nfe_assinc_lote";
             this.bt_env_nfe_assinc_lote.Size = new System.Drawing.Size(180, 23);
             this.bt_env_nfe_assinc_lote.TabIndex = 5;
@@ -157,7 +160,7 @@
             // 
             this.bt_inutilizacao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_inutilizacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_inutilizacao.Location = new System.Drawing.Point(12, 204);
+            this.bt_inutilizacao.Location = new System.Drawing.Point(12, 209);
             this.bt_inutilizacao.Name = "bt_inutilizacao";
             this.bt_inutilizacao.Size = new System.Drawing.Size(180, 23);
             this.bt_inutilizacao.TabIndex = 6;
@@ -169,7 +172,7 @@
             // 
             this.bt_cons_cadas_contribuinte.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_cons_cadas_contribuinte.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_cons_cadas_contribuinte.Location = new System.Drawing.Point(12, 236);
+            this.bt_cons_cadas_contribuinte.Location = new System.Drawing.Point(12, 241);
             this.bt_cons_cadas_contribuinte.Name = "bt_cons_cadas_contribuinte";
             this.bt_cons_cadas_contribuinte.Size = new System.Drawing.Size(180, 23);
             this.bt_cons_cadas_contribuinte.TabIndex = 7;
@@ -180,7 +183,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 99);
+            this.label2.Location = new System.Drawing.Point(23, 104);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(151, 13);
             this.label2.TabIndex = 8;
@@ -190,7 +193,7 @@
             // 
             this.bt_env_nfe_desserializacao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_env_nfe_desserializacao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_env_nfe_desserializacao.Location = new System.Drawing.Point(12, 265);
+            this.bt_env_nfe_desserializacao.Location = new System.Drawing.Point(12, 270);
             this.bt_env_nfe_desserializacao.Name = "bt_env_nfe_desserializacao";
             this.bt_env_nfe_desserializacao.Size = new System.Drawing.Size(180, 37);
             this.bt_env_nfe_desserializacao.TabIndex = 9;
@@ -202,7 +205,7 @@
             // 
             this.bt_env_evento_cancel_nfe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_env_evento_cancel_nfe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_env_evento_cancel_nfe.Location = new System.Drawing.Point(12, 308);
+            this.bt_env_evento_cancel_nfe.Location = new System.Drawing.Point(12, 313);
             this.bt_env_evento_cancel_nfe.Name = "bt_env_evento_cancel_nfe";
             this.bt_env_evento_cancel_nfe.Size = new System.Drawing.Size(180, 23);
             this.bt_env_evento_cancel_nfe.TabIndex = 10;
@@ -214,7 +217,7 @@
             // 
             this.bt_env_evento_cce.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_env_evento_cce.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_env_evento_cce.Location = new System.Drawing.Point(12, 337);
+            this.bt_env_evento_cce.Location = new System.Drawing.Point(12, 342);
             this.bt_env_evento_cce.Name = "bt_env_evento_cce";
             this.bt_env_evento_cce.Size = new System.Drawing.Size(180, 23);
             this.bt_env_evento_cce.TabIndex = 11;
@@ -328,7 +331,7 @@
             // 
             this.bt_imprimir_danfe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_imprimir_danfe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_imprimir_danfe.Location = new System.Drawing.Point(12, 366);
+            this.bt_imprimir_danfe.Location = new System.Drawing.Point(12, 371);
             this.bt_imprimir_danfe.Name = "bt_imprimir_danfe";
             this.bt_imprimir_danfe.Size = new System.Drawing.Size(180, 23);
             this.bt_imprimir_danfe.TabIndex = 21;
@@ -340,7 +343,7 @@
             // 
             this.bt_exe_config_danfe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_exe_config_danfe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_exe_config_danfe.Location = new System.Drawing.Point(12, 395);
+            this.bt_exe_config_danfe.Location = new System.Drawing.Point(12, 400);
             this.bt_exe_config_danfe.Name = "bt_exe_config_danfe";
             this.bt_exe_config_danfe.Size = new System.Drawing.Size(180, 23);
             this.bt_exe_config_danfe.TabIndex = 22;
@@ -363,7 +366,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(63, 82);
+            this.label5.Location = new System.Drawing.Point(63, 87);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(68, 13);
             this.label5.TabIndex = 24;
@@ -450,17 +453,6 @@
             this.bt_gerar_nfce_contingencia.UseVisualStyleBackColor = false;
             this.bt_gerar_nfce_contingencia.Click += new System.EventHandler(this.bt_gerar_nfce_contingencia_Click);
             // 
-            // bt_resgatar_xml_da_nfce
-            // 
-            this.bt_resgatar_xml_da_nfce.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.bt_resgatar_xml_da_nfce.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_resgatar_xml_da_nfce.Location = new System.Drawing.Point(225, 277);
-            this.bt_resgatar_xml_da_nfce.Name = "bt_resgatar_xml_da_nfce";
-            this.bt_resgatar_xml_da_nfce.Size = new System.Drawing.Size(180, 38);
-            this.bt_resgatar_xml_da_nfce.TabIndex = 32;
-            this.bt_resgatar_xml_da_nfce.Text = "Resgatar o XML da NFCe, sem as tags de lote";
-            this.bt_resgatar_xml_da_nfce.UseVisualStyleBackColor = false;
-            // 
             // bt_enviar_evento_cancelamento
             // 
             this.bt_enviar_evento_cancelamento.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
@@ -477,7 +469,7 @@
             // 
             this.bt_consultar_nfse_por_rps.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_consultar_nfse_por_rps.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_consultar_nfse_por_rps.Location = new System.Drawing.Point(636, 277);
+            this.bt_consultar_nfse_por_rps.Location = new System.Drawing.Point(636, 170);
             this.bt_consultar_nfse_por_rps.Name = "bt_consultar_nfse_por_rps";
             this.bt_consultar_nfse_por_rps.Size = new System.Drawing.Size(180, 23);
             this.bt_consultar_nfse_por_rps.TabIndex = 35;
@@ -525,7 +517,7 @@
             // 
             this.bt_substituir_nfse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_substituir_nfse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_substituir_nfse.Location = new System.Drawing.Point(636, 306);
+            this.bt_substituir_nfse.Location = new System.Drawing.Point(636, 199);
             this.bt_substituir_nfse.Name = "bt_substituir_nfse";
             this.bt_substituir_nfse.Size = new System.Drawing.Size(180, 23);
             this.bt_substituir_nfse.TabIndex = 38;
@@ -582,7 +574,7 @@
             // 
             this.bt_enviar_evento_epec.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_enviar_evento_epec.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_enviar_evento_epec.Location = new System.Drawing.Point(12, 424);
+            this.bt_enviar_evento_epec.Location = new System.Drawing.Point(12, 429);
             this.bt_enviar_evento_epec.Name = "bt_enviar_evento_epec";
             this.bt_enviar_evento_epec.Size = new System.Drawing.Size(180, 23);
             this.bt_enviar_evento_epec.TabIndex = 43;
@@ -707,12 +699,59 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // bt_distribuicao_dfe
+            // 
+            this.bt_distribuicao_dfe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_distribuicao_dfe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_distribuicao_dfe.Location = new System.Drawing.Point(1035, 293);
+            this.bt_distribuicao_dfe.Name = "bt_distribuicao_dfe";
+            this.bt_distribuicao_dfe.Size = new System.Drawing.Size(180, 23);
+            this.bt_distribuicao_dfe.TabIndex = 54;
+            this.bt_distribuicao_dfe.Text = "Distribuição DFe";
+            this.bt_distribuicao_dfe.UseVisualStyleBackColor = false;
+            this.bt_distribuicao_dfe.Click += new System.EventHandler(this.bt_distribuicao_dfe_Click);
+            // 
+            // bt_manisfestacao_dest
+            // 
+            this.bt_manisfestacao_dest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_manisfestacao_dest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_manisfestacao_dest.Location = new System.Drawing.Point(1035, 353);
+            this.bt_manisfestacao_dest.Name = "bt_manisfestacao_dest";
+            this.bt_manisfestacao_dest.Size = new System.Drawing.Size(180, 23);
+            this.bt_manisfestacao_dest.TabIndex = 55;
+            this.bt_manisfestacao_dest.Text = "Manifestação Destinatário";
+            this.bt_manisfestacao_dest.UseVisualStyleBackColor = false;
+            this.bt_manisfestacao_dest.Click += new System.EventHandler(this.bt_manisfestacao_dest_Click);
+            // 
+            // bt_enviar_evento_canc_nfce
+            // 
+            this.bt_enviar_evento_canc_nfce.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.bt_enviar_evento_canc_nfce.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_enviar_evento_canc_nfce.Location = new System.Drawing.Point(225, 214);
+            this.bt_enviar_evento_canc_nfce.Name = "bt_enviar_evento_canc_nfce";
+            this.bt_enviar_evento_canc_nfce.Size = new System.Drawing.Size(180, 23);
+            this.bt_enviar_evento_canc_nfce.TabIndex = 56;
+            this.bt_enviar_evento_canc_nfce.Text = "Enviar Evento de Cancelamento";
+            this.bt_enviar_evento_canc_nfce.UseVisualStyleBackColor = false;
+            this.bt_enviar_evento_canc_nfce.Click += new System.EventHandler(this.bt_enviar_evento_canc_nfce_Click);
+            // 
+            // pb_consulta_dfe
+            // 
+            this.pb_consulta_dfe.Location = new System.Drawing.Point(1035, 324);
+            this.pb_consulta_dfe.Name = "pb_consulta_dfe";
+            this.pb_consulta_dfe.Size = new System.Drawing.Size(180, 23);
+            this.pb_consulta_dfe.TabIndex = 57;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1229, 605);
+            this.Controls.Add(this.pb_consulta_dfe);
+            this.Controls.Add(this.bt_enviar_evento_canc_nfce);
+            this.Controls.Add(this.bt_manisfestacao_dest);
+            this.Controls.Add(this.bt_distribuicao_dfe);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.bt_evento_cce_e_cteos);
             this.Controls.Add(this.bt_evento_cce_e_cte);
@@ -734,7 +773,6 @@
             this.Controls.Add(this.bt_consultar_lote_rps);
             this.Controls.Add(this.bt_consultar_nfse_por_rps);
             this.Controls.Add(this.bt_enviar_evento_cancelamento);
-            this.Controls.Add(this.bt_resgatar_xml_da_nfce);
             this.Controls.Add(this.bt_gerar_nfce_contingencia);
             this.Controls.Add(this.bt_env_evento_canc_substituicao);
             this.Controls.Add(this.bt_env_lote_rps_assinc);
@@ -813,7 +851,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button bt_env_evento_canc_substituicao;
         private System.Windows.Forms.Button bt_gerar_nfce_contingencia;
-        private System.Windows.Forms.Button bt_resgatar_xml_da_nfce;
         private System.Windows.Forms.Button bt_enviar_evento_cancelamento;
         private System.Windows.Forms.Button bt_consultar_nfse_por_rps;
         private System.Windows.Forms.Button bt_consultar_lote_rps;
@@ -835,6 +872,10 @@
         private System.Windows.Forms.Button bt_evento_cce_e_cte;
         private System.Windows.Forms.Button bt_evento_cce_e_cteos;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button bt_distribuicao_dfe;
+        private System.Windows.Forms.Button bt_manisfestacao_dest;
+        private System.Windows.Forms.Button bt_enviar_evento_canc_nfce;
+        private System.Windows.Forms.ProgressBar pb_consulta_dfe;
     }
 }
 

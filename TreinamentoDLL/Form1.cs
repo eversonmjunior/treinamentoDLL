@@ -2175,6 +2175,62 @@ namespace TreinamentoDLL
             }
         }
 
+        private void bt_enviar_evento_canc_nfce_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlNFe.EnvEvento
+            {
+                Versao = "1.00",
+                IdLote = "000000000000001",
+                Evento = new List<XmlNFe.Evento>
+                {
+                    new XmlNFe.Evento
+                    {
+                        Versao = "1.00",
+                        InfEvento = new XmlNFe.InfEvento(new XmlNFe.DetEventoCanc
+                        {
+                            NProt = "141190000660363",
+                            Versao = "1.00",
+                            XJust = "Justificativa de teste de cancelamento"
+                        })
+                        {
+                            COrgao = UFBrasil.PR,
+                            ChNFe = "41190806117473000150650010000579131943463890",
+                            CNPJ = "06117473000150",
+                            DhEvento = DateTime.Now,
+                            TpEvento = TipoEventoNFe.Cancelamento,
+                            NSeqEvento = 1,
+                            VerEvento = "1.00",
+                            TpAmb = TipoAmbiente.Homologacao
+                        }
+                    }
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFCe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var recepcaoEvento = new ServicoNFCe.RecepcaoEvento(xml, configuracao);
+            recepcaoEvento.Executar();
+
+            if (recepcaoEvento.Result.CStat == 128) //Lote de evento processado com sucesso
+            {
+                switch (recepcaoEvento.Result.RetEvento[0].InfEvento.CStat)
+                {
+                    case 135: //Evento homologado
+                    case 155: //Evento homologado fora do prazo permitido
+                        recepcaoEvento.GravarXmlDistribuicao(@"d:\testenfe");
+                        break;
+
+                    default:
+                        //Tratamentos necessários quando o evento é rejeitado
+                        break;
+                }
+            }
+        }
+
         //Fim Serviços NFCe
 
         //Serviços MDFe
@@ -3964,8 +4020,130 @@ namespace TreinamentoDLL
             #endregion
         }
 
+        private void bt_distribuicao_dfe_Click(object sender, EventArgs e)
+        {
+            var nsu = "000000000000000"; //Começar com o NSU 0 quando não tem o ultNSU
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            pb_consulta_dfe.Visible = true;
+            pb_consulta_dfe.Minimum = 0;
+            Application.DoEvents();
+            pb_consulta_dfe.Refresh();
+
+            while (true)
+            {
+                var xml = new XmlNFe.DistDFeInt
+                {
+                    Versao = "1.01",
+                    TpAmb = TipoAmbiente.Homologacao,
+                    CNPJ = "06117473000150",
+                    DistNSU = new XmlNFe.DistNSU
+                    {
+                        UltNSU = nsu
+                    }
+                };
+
+                var distribuicaoDFe = new ServicoNFe.DistribuicaoDFe(xml, configuracao);
+                distribuicaoDFe.Executar();
+
+                #region Atualizar ProgressBar
+
+                if (pb_consulta_dfe.Maximum != Convert.ToInt32(distribuicaoDFe.Result.MaxNSU))
+                {
+                    pb_consulta_dfe.Maximum = Convert.ToInt32(distribuicaoDFe.Result.MaxNSU);
+                }
+
+                pb_consulta_dfe.Value = Convert.ToInt32(distribuicaoDFe.Result.UltNSU);
+                pb_consulta_dfe.Refresh();
+                Application.DoEvents();
+
+                #endregion Atualizar ProgressBar
+
+                if (distribuicaoDFe.Result.CStat == 138) // Documentos localizados e 137 = Não tem documentos
+                {
+                    var folder = @"c:\testenfe\doczip";
+
+                    //Salvar XMLs do docZIP no HD
+                    distribuicaoDFe.GravarXMLDocZIP(folder, true);
+                }
+
+                nsu = distribuicaoDFe.Result.UltNSU; //Salvar o ultNSU para usar na próxima consulta
+                //Importante salvar o conteúdo de "nsu" na base de dados.
+
+                if (Convert.ToInt64(distribuicaoDFe.Result.UltNSU) >= Convert.ToInt64(distribuicaoDFe.Result.MaxNSU))
+                {
+                    break;
+                }
+
+                pb_consulta_dfe.Visible = false;
+                Application.DoEvents();
+            }
+        }
+
+        private void bt_manisfestacao_dest_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlNFe.EnvEvento
+            {
+                Versao = "1.00",
+                IdLote = "000000000000001",
+                Evento = new List<XmlNFe.Evento> {
+                    new XmlNFe.Evento
+                    {
+                        Versao = "1.00",
+                        InfEvento = new XmlNFe.InfEvento(new XmlNFe.DetEventoManif
+                        {
+                            Versao = "1.00",
+                            DescEvento = "Operacao nao Realizada", //Pode ser: "Ciencia da Operacao" / "Confirmacao da Operacao" / "Desconhecimento da Operacao" / "Operacao nao Realizada"
+                            XJust = "Justificativa para manifestação da NFe de teste"
+                        })
+                        {
+                            COrgao = UFBrasil.AN,
+                            ChNFe = "41200211111111111111111111111111111111111115",
+                            CNPJ = "06117473000150",
+                            DhEvento = DateTime.Now,
+                            TpEvento = TipoEventoNFe.ManifestacaoOperacaoNaoRealizada,
+                            NSeqEvento = 1,
+                            VerEvento = "1.00",
+                            TpAmb = TipoAmbiente.Homologacao
+                        }
+                    }
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var recepcaoEvento = new ServicoNFe.RecepcaoEvento(xml, configuracao);
+            recepcaoEvento.Executar();
+
+            //Gravar o XML de distribuição do evento
+            if (recepcaoEvento.Result.CStat == 128) //128 = Lote de evento processado com sucesso
+            {
+                switch (recepcaoEvento.Result.RetEvento[0].InfEvento.CStat)
+                {
+                    case 135: //Evento homologado com vinculação da respectiva NFe
+                        recepcaoEvento.GravarXmlDistribuicao(@"c:\testenfe\");
+                        break;
+
+                    default: //Evento rejeitado
+                        //Executar as ações necessárias
+                        break;
+                }
+            }
+        }
+
+
         //Fim Serviços Diversos
 
-        //Live 15
+        //Live 16
+
     }
 }
