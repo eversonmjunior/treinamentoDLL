@@ -85,6 +85,12 @@
             this.bt_manisfestacao_dest = new System.Windows.Forms.Button();
             this.bt_enviar_evento_canc_nfce = new System.Windows.Forms.Button();
             this.pb_consulta_dfe = new System.Windows.Forms.ProgressBar();
+            this.bt_inutilizacao_nfce = new System.Windows.Forms.Button();
+            this.bt_distribuicao_dfe_versao = new System.Windows.Forms.Button();
+            this.bt_enviar_nfe_download_xml = new System.Windows.Forms.Button();
+            this.bt_imprimir_danfe_semvalorfiscal = new System.Windows.Forms.Button();
+            this.bt_distribuicao_dfe_cte = new System.Windows.Forms.Button();
+            this.bt_xml_nfse_csharp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -703,7 +709,7 @@
             // 
             this.bt_distribuicao_dfe.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bt_distribuicao_dfe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_distribuicao_dfe.Location = new System.Drawing.Point(1035, 293);
+            this.bt_distribuicao_dfe.Location = new System.Drawing.Point(1035, 127);
             this.bt_distribuicao_dfe.Name = "bt_distribuicao_dfe";
             this.bt_distribuicao_dfe.Size = new System.Drawing.Size(180, 23);
             this.bt_distribuicao_dfe.TabIndex = 54;
@@ -715,7 +721,7 @@
             // 
             this.bt_manisfestacao_dest.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bt_manisfestacao_dest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_manisfestacao_dest.Location = new System.Drawing.Point(1035, 353);
+            this.bt_manisfestacao_dest.Location = new System.Drawing.Point(1035, 185);
             this.bt_manisfestacao_dest.Name = "bt_manisfestacao_dest";
             this.bt_manisfestacao_dest.Size = new System.Drawing.Size(180, 23);
             this.bt_manisfestacao_dest.TabIndex = 55;
@@ -737,17 +743,96 @@
             // 
             // pb_consulta_dfe
             // 
-            this.pb_consulta_dfe.Location = new System.Drawing.Point(1035, 324);
+            this.pb_consulta_dfe.Location = new System.Drawing.Point(1035, 156);
             this.pb_consulta_dfe.Name = "pb_consulta_dfe";
             this.pb_consulta_dfe.Size = new System.Drawing.Size(180, 23);
             this.pb_consulta_dfe.TabIndex = 57;
+            // 
+            // bt_inutilizacao_nfce
+            // 
+            this.bt_inutilizacao_nfce.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.bt_inutilizacao_nfce.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_inutilizacao_nfce.Location = new System.Drawing.Point(225, 243);
+            this.bt_inutilizacao_nfce.Name = "bt_inutilizacao_nfce";
+            this.bt_inutilizacao_nfce.Size = new System.Drawing.Size(180, 23);
+            this.bt_inutilizacao_nfce.TabIndex = 58;
+            this.bt_inutilizacao_nfce.Text = "Inutilização";
+            this.bt_inutilizacao_nfce.UseVisualStyleBackColor = false;
+            this.bt_inutilizacao_nfce.Click += new System.EventHandler(this.bt_inutilizacao_nfce_Click);
+            // 
+            // bt_distribuicao_dfe_versao
+            // 
+            this.bt_distribuicao_dfe_versao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_distribuicao_dfe_versao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_distribuicao_dfe_versao.Location = new System.Drawing.Point(1035, 214);
+            this.bt_distribuicao_dfe_versao.Name = "bt_distribuicao_dfe_versao";
+            this.bt_distribuicao_dfe_versao.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bt_distribuicao_dfe_versao.Size = new System.Drawing.Size(180, 23);
+            this.bt_distribuicao_dfe_versao.TabIndex = 59;
+            this.bt_distribuicao_dfe_versao.Text = "Distribuição DFe Versão 1.35";
+            this.bt_distribuicao_dfe_versao.UseVisualStyleBackColor = false;
+            this.bt_distribuicao_dfe_versao.Click += new System.EventHandler(this.bt_distribuicao_dfe_versao_Click);
+            // 
+            // bt_enviar_nfe_download_xml
+            // 
+            this.bt_enviar_nfe_download_xml.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_enviar_nfe_download_xml.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_enviar_nfe_download_xml.Location = new System.Drawing.Point(1035, 272);
+            this.bt_enviar_nfe_download_xml.Name = "bt_enviar_nfe_download_xml";
+            this.bt_enviar_nfe_download_xml.Size = new System.Drawing.Size(180, 41);
+            this.bt_enviar_nfe_download_xml.TabIndex = 60;
+            this.bt_enviar_nfe_download_xml.Text = "Enviar NFe autorizando 3% a fazer download do XML";
+            this.bt_enviar_nfe_download_xml.UseVisualStyleBackColor = false;
+            this.bt_enviar_nfe_download_xml.Click += new System.EventHandler(this.bt_enviar_nfe_download_xml_Click);
+            // 
+            // bt_imprimir_danfe_semvalorfiscal
+            // 
+            this.bt_imprimir_danfe_semvalorfiscal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_imprimir_danfe_semvalorfiscal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_imprimir_danfe_semvalorfiscal.Location = new System.Drawing.Point(1035, 538);
+            this.bt_imprimir_danfe_semvalorfiscal.Name = "bt_imprimir_danfe_semvalorfiscal";
+            this.bt_imprimir_danfe_semvalorfiscal.Size = new System.Drawing.Size(180, 41);
+            this.bt_imprimir_danfe_semvalorfiscal.TabIndex = 61;
+            this.bt_imprimir_danfe_semvalorfiscal.Text = "Imprimir DANFe sem valor fiscal para conferência";
+            this.bt_imprimir_danfe_semvalorfiscal.UseVisualStyleBackColor = false;
+            // 
+            // bt_distribuicao_dfe_cte
+            // 
+            this.bt_distribuicao_dfe_cte.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_distribuicao_dfe_cte.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_distribuicao_dfe_cte.Location = new System.Drawing.Point(1035, 243);
+            this.bt_distribuicao_dfe_cte.Name = "bt_distribuicao_dfe_cte";
+            this.bt_distribuicao_dfe_cte.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bt_distribuicao_dfe_cte.Size = new System.Drawing.Size(180, 23);
+            this.bt_distribuicao_dfe_cte.TabIndex = 62;
+            this.bt_distribuicao_dfe_cte.Text = "Distribuição DFe - CTe";
+            this.bt_distribuicao_dfe_cte.UseVisualStyleBackColor = false;
+            this.bt_distribuicao_dfe_cte.Click += new System.EventHandler(this.bt_distribuicao_dfe_cte_Click);
+            // 
+            // bt_xml_nfse_csharp
+            // 
+            this.bt_xml_nfse_csharp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.bt_xml_nfse_csharp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_xml_nfse_csharp.Location = new System.Drawing.Point(636, 228);
+            this.bt_xml_nfse_csharp.Name = "bt_xml_nfse_csharp";
+            this.bt_xml_nfse_csharp.Size = new System.Drawing.Size(180, 23);
+            this.bt_xml_nfse_csharp.TabIndex = 63;
+            this.bt_xml_nfse_csharp.Text = "Criar XML da NFSe em C#";
+            this.bt_xml_nfse_csharp.UseVisualStyleBackColor = false;
+            this.bt_xml_nfse_csharp.Click += new System.EventHandler(this.bt_xml_nfse_csharp_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1229, 605);
+            this.ClientSize = new System.Drawing.Size(1229, 593);
+            this.Controls.Add(this.bt_xml_nfse_csharp);
+            this.Controls.Add(this.bt_distribuicao_dfe_cte);
+            this.Controls.Add(this.bt_imprimir_danfe_semvalorfiscal);
+            this.Controls.Add(this.bt_enviar_nfe_download_xml);
+            this.Controls.Add(this.bt_distribuicao_dfe_versao);
+            this.Controls.Add(this.bt_inutilizacao_nfce);
             this.Controls.Add(this.pb_consulta_dfe);
             this.Controls.Add(this.bt_enviar_evento_canc_nfce);
             this.Controls.Add(this.bt_manisfestacao_dest);
@@ -876,6 +961,12 @@
         private System.Windows.Forms.Button bt_manisfestacao_dest;
         private System.Windows.Forms.Button bt_enviar_evento_canc_nfce;
         private System.Windows.Forms.ProgressBar pb_consulta_dfe;
+        private System.Windows.Forms.Button bt_inutilizacao_nfce;
+        private System.Windows.Forms.Button bt_distribuicao_dfe_versao;
+        private System.Windows.Forms.Button bt_enviar_nfe_download_xml;
+        private System.Windows.Forms.Button bt_imprimir_danfe_semvalorfiscal;
+        private System.Windows.Forms.Button bt_distribuicao_dfe_cte;
+        private System.Windows.Forms.Button bt_xml_nfse_csharp;
     }
 }
 

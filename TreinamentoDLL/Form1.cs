@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using Unimake.Business.DFe.Xml.NFe;
 using Unimake.Security.Platform;
 using Unimake.Exceptions;
+using System.Xml.Linq;
 
 using XmlMDFe = Unimake.Business.DFe.Xml.MDFe;
 using XmlNFe = Unimake.Business.DFe.Xml.NFe;
@@ -2231,6 +2232,46 @@ namespace TreinamentoDLL
             }
         }
 
+        private void bt_inutilizacao_nfce_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlNFe.InutNFe
+            {
+                Versao = "4.00",
+                InfInut = new XmlNFe.InutNFeInfInut
+                {
+                    Ano = "19",
+                    CNPJ = "06117473000150",
+                    CUF = UFBrasil.PR,
+                    Mod = ModeloDFe.NFCe,
+                    NNFIni = 57919,
+                    NNFFin = 57919,
+                    Serie = 1,
+                    TpAmb = TipoAmbiente.Homologacao,
+                    XJust = "Justificativa da inutilizacao de teste"
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFCe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var inutilizacao = new ServicoNFCe.Inutilizacao(xml, configuracao);
+            inutilizacao.Executar();
+
+            switch (inutilizacao.Result.InfInut.CStat)
+            {
+                case 102: //Inutilização Homologada
+                    inutilizacao.GravarXmlDistribuicao(@"d:\testenfe\");
+                    break;
+
+                default:
+                    //Tratamentos
+                    break;
+            }
+        }
+
         //Fim Serviços NFCe
 
         //Serviços MDFe
@@ -3133,6 +3174,138 @@ namespace TreinamentoDLL
 
             MessageBox.Show(substituirNFse.RetornoWSString);
         }
+
+        private void bt_xml_nfse_csharp_Click(object sender, EventArgs e)
+        {
+            var xmlNFSe = new XDocument(new XDeclaration("1.0", "utf-8", null));
+            XNamespace xNamespace = "http://www.prefeitura.sp.gov.br/nfe";
+
+            #region Criar a primeira tag <PedidoEnvioRPS> do XML com o namespace
+
+            var tagPedidoEnvioRPS = new XElement(xNamespace + "PedidoEnvioRPS");
+
+            #endregion
+
+            #region Criar o grupo de tag <Cabecalho>
+
+            //Criar tag <Cabecalho>
+            var tagCabecalho = new XElement("Cabecalho");
+
+            //Criar o atributo Versao na tag <Cabecalho>
+            tagCabecalho.Add(new XAttribute("Versao", "1"));
+
+            //Criar o grupo de tag CPFCNPJRemetente
+            var tagCPFCNPJRemetente = new XElement("CPFCNPJRemetente");
+
+            //Criar a tags filhas do grupo <CPFCNPJRemetente>
+            tagCPFCNPJRemetente.Add(new XElement("CNPJ", "99999997000100"));
+
+            //Adicionar a tag <CPFCNPJRementente> dentro da tag <Cabecalho>
+            tagCabecalho.Add(tagCPFCNPJRemetente);
+
+            //Adicionar a tag <Cabecalho> dentro da tag <PedidoEnvioRPS>
+            tagPedidoEnvioRPS.Add(tagCabecalho);
+
+            #endregion
+
+            #region Criar o grupo de tag <RPS>
+
+            //Criar tag <RPS>
+            var tagRPS = new XElement("RPS");
+
+            tagRPS.Add(new XElement("Assinatura", "d8Pg/jdA7t5tSaB8Il1d/CMiLGgfFAXzTL9o5stv6TNbhm9I94DIo0/ocqJpGx0KzoEeIQz4RSn99pWX4fiW/aETlNT3u5woqCAyL6U2hSyl/eQfWRYrqFu2zcdc4rsAG/wJbDjNO8y0Pz9b6rlTwkIJ+kMdLo+EWXMnB744olYE721g2O9CmUTvjtBgCfVUgvuN1MGjgzpgyussCOSkLpGbrqtM5+pYMXZsTaEVIIck1baDkoRpLmZ5Y/mcn1/Om1fMyhJVUAkgI5xBrORuotIP7e3+HLJnKgzQQPWCtLyEEyAqUk9Gq64wMayITua5FodaJsX+Eic/ie3kS5m50Q=="));
+
+            //Criar grupo de Tag <ChaveRPS>
+            var tagChaveRPS = new XElement("ChaveRPS");
+
+            //Criar tags filhas do grupo <ChaveRPS>
+            tagChaveRPS.Add(new XElement("InscricaoPrestador", "39616924"));
+            tagChaveRPS.Add(new XElement("SerieRPS", "BB"));
+            tagChaveRPS.Add(new XElement("NumeroRPS", "4105"));
+
+            tagRPS.Add(tagChaveRPS);
+
+            //Criar várias tags filhas da tag <RPS>
+            tagRPS.Add(new XElement("TipoRPS", "RPS-M"));
+            tagRPS.Add(new XElement("DataEmissao", "2015-01-20"));
+            tagRPS.Add(new XElement("StatusRPS", "N"));
+            tagRPS.Add(new XElement("TributacaoRPS", "T"));
+            tagRPS.Add(new XElement("ValorServicos", "20500"));
+            tagRPS.Add(new XElement("ValorDeducoes", "5000"));
+            tagRPS.Add(new XElement("ValorPIS", "10"));
+            tagRPS.Add(new XElement("ValorCOFINS", "10"));
+            tagRPS.Add(new XElement("ValorINSS", "10"));
+            tagRPS.Add(new XElement("ValorIR", "10"));
+            tagRPS.Add(new XElement("ValorCSLL", "10"));
+            tagRPS.Add(new XElement("CodigoServico", "7617"));
+            tagRPS.Add(new XElement("AliquotaServicos", "0.05"));
+            tagRPS.Add(new XElement("ISSRetido", "false"));
+
+            //Criar grupo de tag <CPFCNPJTomador>
+            var tagCPFCNPJTomador = new XElement("CPFCNPJTomador");
+
+            //Criar tags filhas do grupo <CPFCNPJTomador>
+            tagCPFCNPJTomador.Add(new XElement("CPF", "12345678909"));
+
+            //Adicionar a tag <CPFCNPJTomador> dentro da tag <RPS>
+            tagRPS.Add(tagCPFCNPJTomador);
+
+            //Criar mais tags filhas da tag <RPS>
+            tagRPS.Add(new XElement("RazaoSocialTomador", "TOMADOR PF"));
+
+            //Criar tag <EnderecoTomador>
+            var tagEnderecoTomador = new XElement("EnderecoTomador");
+
+            //Criar tags filhas da tag <EnderecoTomador>
+            tagEnderecoTomador.Add(new XElement("TipoLogradouro", "Av"));
+            tagEnderecoTomador.Add(new XElement("Logradouro", "Paulista"));
+            tagEnderecoTomador.Add(new XElement("NumeroEndereco", "100"));
+            tagEnderecoTomador.Add(new XElement("ComplementoEndereco", "Cj 35"));
+            tagEnderecoTomador.Add(new XElement("Bairro", "Bela Vista"));
+            tagEnderecoTomador.Add(new XElement("Cidade", "3550308"));
+            tagEnderecoTomador.Add(new XElement("UF", "SP"));
+            tagEnderecoTomador.Add(new XElement("CEP", "1310100"));
+
+            //Adicionar a tag <EnderecoTomador> dentro da tag <RPS>
+            tagRPS.Add(tagEnderecoTomador);
+
+            //Criar mais tags filhas da tag <RPS>
+            tagRPS.Add(new XElement("EmailTomador", "tomador@teste.com.br"));
+            tagRPS.Add(new XElement("Discriminacao", "Desenvolvimento de Web Site Pessoal."));
+
+            #endregion 
+
+            //Adicionar a tag <RPS> dentro da tag <PedidoEnvioRPS>
+            tagPedidoEnvioRPS.Add(tagRPS);
+
+            //Adicionar a tag <PedidoEnvioRPS> no xmlNfse
+            xmlNFSe.Add(tagPedidoEnvioRPS);
+
+            //Recuperar o conteúdo gerado acima para passar para a DLL no formato XmlDocument, que é o tipo esperado pelo método Executar da DLL
+            var conteudoXML = new XmlDocument();
+            conteudoXML.CreateXmlDeclaration("1.0", "utf-8", null);
+
+            using (var xmlReader = xmlNFSe.CreateReader())
+            {
+                conteudoXML.Load(xmlReader);
+            }
+
+            //Pronto... só passar a conteudoXML para o método Executar para enviar para a prefeitura de São Paulo-SP.
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFSe,
+                CertificadoDigital = CertificadoSelecionado,
+                TipoAmbiente = TipoAmbiente.Producao,
+                CodigoMunicipio = 3550308, //São Paulo-SP
+                Servico = Servico.NFSeEnvioRps,
+                SchemaVersao = "2.00"
+            };
+
+            var envioRps = new ServicoNFSe.EnvioRps(conteudoXML, configuracao);
+            envioRps.Executar();
+        }
+
+        //Live 18
 
         //Fim Serviços NFSe
 
@@ -4140,10 +4313,351 @@ namespace TreinamentoDLL
             }
         }
 
+        private void bt_enviar_nfe_download_xml_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlNFe.EnviNFe
+            {
+                Versao = "4.00",
+                IdLote = "000000000000001",
+                IndSinc = SimNao.Sim,
+                NFe = new List<XmlNFe.NFe>
+                {
+                    new XmlNFe.NFe
+                    {
+                        InfNFe = new List<XmlNFe.InfNFe>
+                        {
+                            new XmlNFe.InfNFe
+                            {
+                                Versao = "4.00",
+                                Ide = new XmlNFe.Ide
+                                {
+                                    CUF = UFBrasil.PR,
+                                    NatOp = "VENDA PRODUC.DO ESTABELEC",
+                                    Mod = ModeloDFe.NFe,
+                                    Serie = 1,
+                                    NNF = 57990,
+                                    DhEmi = DateTime.Now,
+                                    DhSaiEnt = DateTime.Now,
+                                    TpNF = TipoOperacao.Saida,
+                                    IdDest = DestinoOperacao.OperacaoInterestadual,
+                                    CMunFG = 4118402,
+                                    TpImp = FormatoImpressaoDANFE.NormalRetrato,
+                                    TpEmis = TipoEmissao.Normal,
+                                    TpAmb = TipoAmbiente.Homologacao,
+                                    FinNFe = FinalidadeNFe.Normal,
+                                    IndFinal = SimNao.Sim,
+                                    IndPres = IndicadorPresenca.OperacaoPresencial,
+                                    ProcEmi = ProcessoEmissao.AplicativoContribuinte,
+                                    VerProc = "TESTE 1.00"
+                                },
+                                Emit = new XmlNFe.Emit
+                                {
+                                    CNPJ = "06117473000150",
+                                    XNome = "UNIMAKE SOLUCOES CORPORATIVAS LTDA",
+                                    XFant = "UNIMAKE - PARANAVAI",
+                                    EnderEmit = new XmlNFe.EnderEmit
+                                    {
+                                        XLgr = "RUA ANTONIO FELIPE",
+                                        Nro = "1500",
+                                        XBairro = "CENTRO",
+                                        CMun = 4118402,
+                                        XMun = "PARANAVAI",
+                                        UF = UFBrasil.PR,
+                                        CEP = "87704030",
+                                        Fone = "04431414900"
+                                    },
+                                    IE = "9032000301",
+                                    IM = "14018",
+                                    CNAE = "6202300",
+                                    CRT = CRT.SimplesNacional
+                                },
+                                Dest = new XmlNFe.Dest
+                                {
+                                    CNPJ = "04218457000128",
+                                    XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+                                    EnderDest = new XmlNFe.EnderDest
+                                    {
+                                        XLgr = "AVENIDA DA SAUDADE",
+                                        Nro = "1555",
+                                        XBairro = "CAMPOS ELISEOS",
+                                        CMun = 3543402,
+                                        XMun = "RIBEIRAO PRETO",
+                                        UF = UFBrasil.SP,
+                                        CEP = "14080000",
+                                        Fone = "01639611500"
+                                    },
+                                    IndIEDest = IndicadorIEDestinatario.ContribuinteICMS,
+                                    IE = "582614838110",
+                                    Email = "janelaorp@janelaorp.com.br"
+                                },
+                                AutXML = new List<XmlNFe.AutXML>
+                                {
+                                    new XmlNFe.AutXML
+                                    {
+                                        CNPJ = "00000000000000",
+                                    },
+                                    new XmlNFe.AutXML
+                                    {
+                                        CPF = "00000000000"
+                                    },
+                                    new XmlNFe.AutXML
+                                    {
+                                        CNPJ = "11111111111111"
+                                    }
+                                },
+                                Det = CriarDet(),
+                                Total = new XmlNFe.Total
+                                {
+                                    ICMSTot = new XmlNFe.ICMSTot
+                                    {
+                                        VBC = 0,
+                                        VICMS = 0,
+                                        VICMSDeson = 0,
+                                        VFCP = 0,
+                                        VBCST = 0,
+                                        VST = 0,
+                                        VFCPST = 0,
+                                        VFCPSTRet = 0,
+                                        VProd = 84.90,
+                                        VFrete = 0,
+                                        VSeg = 0,
+                                        VDesc = 0,
+                                        VII = 0,
+                                        VIPI = 0,
+                                        VIPIDevol = 0,
+                                        VPIS = 0,
+                                        VCOFINS = 0,
+                                        VOutro = 0,
+                                        VNF = 84.90,
+                                        VTotTrib = 12.63
+                                    }
+                                },
+                                Transp = new XmlNFe.Transp
+                                {
+                                    ModFrete = ModalidadeFrete.ContratacaoFretePorContaRemetente_CIF,
+                                    Vol = new List<XmlNFe.Vol>
+                                    {
+                                        new XmlNFe.Vol
+                                        {
+                                            QVol = 1,
+                                            Esp = "LU",
+                                            Marca = "UNIMAKE",
+                                            PesoL = 0.000,
+                                            PesoB = 0.000
+                                        }
+                                    }
+                                },
+                                Cobr = new XmlNFe.Cobr()
+                                {
+                                    Fat = new XmlNFe.Fat
+                                    {
+                                        NFat = "057910",
+                                        VOrig = 84.90,
+                                        VDesc = 0,
+                                        VLiq = 84.90
+                                    },
+                                    Dup = new List<XmlNFe.Dup>
+                                    {
+                                        new XmlNFe.Dup
+                                        {
+                                            NDup = "001",
+                                            DVenc = DateTime.Now,
+                                            VDup = 84.90
+                                        }
+                                    }
+                                },
+                                Pag = new XmlNFe.Pag
+                                {
+                                    DetPag = new List<XmlNFe.DetPag>
+                                    {
+                                        new XmlNFe.DetPag
+                                        {
+                                            IndPag = IndicadorPagamento.PagamentoVista,
+                                            TPag = MeioPagamento.Dinheiro,
+                                            VPag = 80.90
+                                        }
+                                    }
+                                },
+                                InfAdic = new XmlNFe.InfAdic
+                                {
+                                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
+                                },
+                                InfRespTec = new XmlNFe.InfRespTec
+                                {
+                                    CNPJ = "06117473000150",
+                                    XContato = "Wandrey Mundin Ferreira",
+                                    Email = "wandrey@unimake.com.br",
+                                    Fone = "04431414900"
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFe,
+                TipoEmissao = TipoEmissao.Normal,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var autorizacao = new ServicoNFe.Autorizacao(xml, configuracao);
+            var xmlString = autorizacao.ConteudoXMLAssinado.OuterXml;
+            //Gravo no meu banco de dados o xmlString
+
+            autorizacao.Executar();
+
+            //Gravar o arquivo do conteúdo retornado em uma pasta qualquer para ter em segurança. Pode-se também gravar na base de dados. Fica a critério de cada um.
+            File.WriteAllText(@"c:\testenfe\retorno\nomearquivoretorno.xml", autorizacao.RetornoWSString);
+
+            if (autorizacao.Result.ProtNFe != null)
+            {
+                switch (autorizacao.Result.ProtNFe.InfProt.CStat)
+                {
+                    case 100: //Autorizado o uso da NFe
+                    case 110: //Uso Denegado
+                    case 150: //Autorizado o uso da NF-e, autorização fora de prazo
+                    case 205: //NF-e está denegada na base de dados da SEFAZ [nRec:999999999999999]
+                    case 301: //Uso Denegado: Irregularidade fiscal do emitente
+                    case 302: //Uso Denegado: Irregularidade fiscal do destinatário
+                    case 303: //Uso Denegado: Destinatário não habilitado a operar na UF
+                        autorizacao.GravarXmlDistribuicao(@"c:\testenfe\");
+                        var docProcNFe = autorizacao.NfeProcResult.GerarXML(); //Gerar o Objeto para pegar a string e gravar em banco de dados
+                        MessageBox.Show(autorizacao.NfeProcResult.NomeArquivoDistribuicao);
+                        break;
+
+                    default:
+                        //NF Rejeitada
+                        break;
+                }
+            }
+        }
+
+        private void bt_distribuicao_dfe_versao_Click(object sender, EventArgs e)
+        {
+            var nsu = "000000000000000"; //Começar com o NSU 0 quando não tem o ultNSU
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            pb_consulta_dfe.Visible = true;
+            pb_consulta_dfe.Minimum = 0;
+            Application.DoEvents();
+            pb_consulta_dfe.Refresh();
+
+            while (true)
+            {
+                var xml = new XmlNFe.DistDFeInt
+                {
+                    Versao = "1.35",
+                    TpAmb = TipoAmbiente.Homologacao,
+                    CNPJ = "06117473000150",
+                    CUFAutor = UFBrasil.PR,
+                    DistNSU = new XmlNFe.DistNSU
+                    {
+                        UltNSU = nsu
+                    }
+                };
+
+                var distribuicaoDFe = new ServicoNFe.DistribuicaoDFe(xml, configuracao);
+                distribuicaoDFe.Executar();
+
+                #region Atualizar ProgressBar
+
+                if (pb_consulta_dfe.Maximum != Convert.ToInt32(distribuicaoDFe.Result.MaxNSU))
+                {
+                    pb_consulta_dfe.Maximum = Convert.ToInt32(distribuicaoDFe.Result.MaxNSU);
+                }
+
+                pb_consulta_dfe.Value = Convert.ToInt32(distribuicaoDFe.Result.UltNSU);
+                pb_consulta_dfe.Refresh();
+                Application.DoEvents();
+
+                #endregion Atualizar ProgressBar
+
+                if (distribuicaoDFe.Result.CStat == 138) // Documentos localizados e 137 = Não tem documentos
+                {
+                    var folder = @"c:\testenfe\doczip";
+
+                    //Salvar XMLs do docZIP no HD
+                    distribuicaoDFe.GravarXMLDocZIP(folder, true);
+                }
+
+                nsu = distribuicaoDFe.Result.UltNSU; //Salvar o ultNSU para usar na próxima consulta
+                //Importante salvar o conteúdo de "nsu" na base de dados.
+
+                if (Convert.ToInt64(distribuicaoDFe.Result.UltNSU) >= Convert.ToInt64(distribuicaoDFe.Result.MaxNSU))
+                {
+                    break;
+                }
+
+                pb_consulta_dfe.Visible = false;
+                Application.DoEvents();
+
+                //Guarde o conteúdo da variável "nsu" (que tem o ultNSU retornado) em sua base para ser utilizado na próxima consulta.
+                //Agora aguarde 1 hora para dar sequencia na consulta a partir do ultNSU retornado, esta é a regra para evitar Consumo indevido.
+            }
+        }
+
+        private void bt_distribuicao_dfe_cte_Click(object sender, EventArgs e)
+        {
+            var nsu = "000000000000000"; //Começar com o NSU 0 quando não tem o ultNSU			
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.CTe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            while (true)
+            {
+                var xml = new XmlCTe.DistDFeInt
+                {
+                    Versao = "1.00",
+                    TpAmb = TipoAmbiente.Producao,
+                    CNPJ = "06117473000150",
+                    CUFAutor = UFBrasil.PR,
+                    DistNSU = new XmlCTe.DistNSU
+                    {
+                        UltNSU = nsu
+                    }
+                };
+
+                var distribuicaoDFe = new ServicoCTe.DistribuicaoDFe(xml, configuracao);
+                distribuicaoDFe.Executar();
+
+
+                if (distribuicaoDFe.Result.CStat.Equals(138)) //138 = Documentos localizados e 137 = Não tem documentos
+                {
+                    var folder = @"d:\testenfe\doczip";
+
+                    //Salvar os XMLs do docZIP no HD
+                    distribuicaoDFe.GravarXMLDocZIP(folder);
+                }
+
+                nsu = distribuicaoDFe.Result.UltNSU; //Salvar o ultNSU para usar na próxima consulta
+
+                if (Convert.ToInt64(distribuicaoDFe.Result.UltNSU) >= Convert.ToInt64(distribuicaoDFe.Result.MaxNSU))
+                {
+                    break;
+                }
+            }
+
+            //Guarde o conteúdo da variável "nsu" (que tem o ultNSU retornado) em sua base para ser utilizado na próxima consulta.
+            //Agora aguarde 1 hora para dar sequencia na consulta a partir do ultNSU retornado, esta é a regra para evitar Consumo indevido.      
+        }
+
+        
+
+
+
+
 
         //Fim Serviços Diversos
 
-        //Live 16
 
     }
 }
