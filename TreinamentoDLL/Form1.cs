@@ -30,6 +30,7 @@ using ServicoNFSe = Unimake.Business.DFe.Servicos.NFSe;
 using ServicoNFCe = Unimake.Business.DFe.Servicos.NFCe;
 using ServicoNFe = Unimake.Business.DFe.Servicos.NFe;
 
+using DFe = Unimake.Business.DFe;
 using DANFe = Unimake.Unidanfe;
 using Unimake.Business.DFe.Servicos;
 using Unimake.Business.DFe.Servicos.NFe;
@@ -3305,8 +3306,6 @@ namespace TreinamentoDLL
             envioRps.Executar();
         }
 
-        //Live 18
-
         //Fim Serviços NFSe
 
 
@@ -4650,13 +4649,154 @@ namespace TreinamentoDLL
             //Agora aguarde 1 hora para dar sequencia na consulta a partir do ultNSU retornado, esta é a regra para evitar Consumo indevido.      
         }
 
-        
+        private void bt_validar_xml_dll_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var validarSchema = new DFe.ValidarSchema();
+                var doc = new XmlDocument();
 
+                //Validar XML da ProcNFe - Sem falhas
+                doc.Load(@"C:\Projetos\UniNFe\exemplos\NFe e NFCe 4.00\NFe\41170706117473000150550010000463191912756548-procNFe.xml");
 
+                var schema = "NFe.procNFe_v4.00.xsd";
+                validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/nfe");
 
+                if (!validarSchema.Success)
+                {
+                    MessageBox.Show("Code: " + validarSchema.ErrorCode + "\r\n\r\nMessage: " + validarSchema.ErrorMessage);
+                }
+                else
+                {
+                    MessageBox.Show("XML validado com sucesso");
+                }
 
+                //Validar XML da ProcNFe - com falhas
+                doc.Load(@"D:\testenfe\41220306117473000150550010000000001111111111-procNFe.xml");
+
+                schema = "NFe.procNFe_v4.00.xsd";
+                validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/nfe");
+
+                if (!validarSchema.Success)
+                {
+                    MessageBox.Show("Code: " + validarSchema.ErrorCode + "\r\n\r\nMessage: " + validarSchema.ErrorMessage);
+                }
+                else
+                {
+                    MessageBox.Show("XML validado com sucesso.");
+                }
+
+                //Validar XML da NFe
+                doc.Load(@"D:\testenfe\41220306117473000150550010000111111111111111-NFe.xml");
+
+                schema = "NFe.nfe_v4.00.xsd";
+                validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/nfe");
+
+                if (!validarSchema.Success)
+                {
+                    MessageBox.Show("Code: " + validarSchema.ErrorCode + "\r\n\r\nMessage: " + validarSchema.ErrorMessage);
+                }
+                else
+                {
+                    MessageBox.Show("XML validado com sucesso.");
+                }
+
+                //Validar uma NFCe                
+                doc.Load(@"D:\testenfe\41170706117473000150550010000463191912756548-nfe.xml");
+
+                schema = "NFe.nfe_v4.00.xsd";
+                validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/nfe");
+
+                if (!validarSchema.Success)
+                {
+                    MessageBox.Show("Code: " + validarSchema.ErrorCode + "\r\n\r\nMessage: " + validarSchema.ErrorMessage);
+                }
+                else
+                {
+                    MessageBox.Show("XML validado com sucesso.");
+                }
+
+                //Validar XML de consulta status da NFe
+                doc.Load(@"D:\testenfe\20100222T222310-ped-sta.xml");
+
+                schema = "NFe.consStatServ_v4.00.xsd";
+                validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/nfe");
+
+                if (!validarSchema.Success)
+                {
+                    MessageBox.Show("Code: " + validarSchema.ErrorCode + "\r\n\r\nMessage: " + validarSchema.ErrorMessage);
+                }
+                else
+                {
+                    MessageBox.Show("XML validado com sucesso.");
+                }
+
+                //Validar XML de CTe                
+                doc.Load(@"D:\testenfe\51160624686092000173570010000000031000000020-cte.XML");
+
+                schema = "CTe.cte_v3.00.xsd";
+                validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/cte");
+
+                if (!validarSchema.Success)
+                {
+                    MessageBox.Show("Code: " + validarSchema.ErrorCode + "\r\n\r\nMessage: " + validarSchema.ErrorMessage);
+                }
+                else
+                {
+                    MessageBox.Show("XML validado com sucesso.");
+                }
+
+                //Validar XML de consulta status da MDFe
+                doc.Load(@"D:\testenfe\20170210T100210-ped-sta.xml");
+
+                schema = "MDFe.consStatServMDFe_v3.00.xsd";
+                validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/mdfe");
+
+                if (!validarSchema.Success)
+                {
+                    MessageBox.Show("Code: " + validarSchema.ErrorCode + "\r\n\r\nMessage: " + validarSchema.ErrorMessage);
+                }
+                else
+                {
+                    MessageBox.Show("XML validado com sucesso.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         //Fim Serviços Diversos
+
+        //Serviços GNRE
+
+        private void bt_consulta_confg_uf_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlGNRe.TConsultaConfigUf
+            {
+                Ambiente = TipoAmbiente.Homologacao,
+                UF = UFBrasil.RS,
+                Receita = new XmlGNRe.Receita
+                {
+                    Courier = SimNaoLetra.Nao,
+                    Value = 100064
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.GNRE,
+                TipoEmissao = TipoEmissao.Normal,
+                CertificadoArquivo = @"C:\Projetos\Unimake_PV.pfx",
+                CertificadoSenha = "12345678"
+            };
+
+            var consultaConfigUF = new ServicoGNRe.ConsultaConfigUF(xml, configuracao);
+            consultaConfigUF.Executar();
+        }
+
+        //Fim Serviços GNRE
 
 
     }

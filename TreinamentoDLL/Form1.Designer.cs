@@ -91,6 +91,10 @@
             this.bt_imprimir_danfe_semvalorfiscal = new System.Windows.Forms.Button();
             this.bt_distribuicao_dfe_cte = new System.Windows.Forms.Button();
             this.bt_xml_nfse_csharp = new System.Windows.Forms.Button();
+            this.bt_validar_xml_dll = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.bt_cancelar_nfse_gnre = new System.Windows.Forms.Button();
+            this.bt_consulta_confg_uf = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -592,7 +596,7 @@
             // 
             this.bt_recuperar_xml_nfe_distribuicao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_recuperar_xml_nfe_distribuicao.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_recuperar_xml_nfe_distribuicao.Location = new System.Drawing.Point(12, 527);
+            this.bt_recuperar_xml_nfe_distribuicao.Location = new System.Drawing.Point(12, 458);
             this.bt_recuperar_xml_nfe_distribuicao.Name = "bt_recuperar_xml_nfe_distribuicao";
             this.bt_recuperar_xml_nfe_distribuicao.Size = new System.Drawing.Size(180, 23);
             this.bt_recuperar_xml_nfe_distribuicao.TabIndex = 44;
@@ -604,7 +608,7 @@
             // 
             this.bt_recuperar_xml_nfe_distribuicao_2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.bt_recuperar_xml_nfe_distribuicao_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_recuperar_xml_nfe_distribuicao_2.Location = new System.Drawing.Point(12, 556);
+            this.bt_recuperar_xml_nfe_distribuicao_2.Location = new System.Drawing.Point(12, 487);
             this.bt_recuperar_xml_nfe_distribuicao_2.Name = "bt_recuperar_xml_nfe_distribuicao_2";
             this.bt_recuperar_xml_nfe_distribuicao_2.Size = new System.Drawing.Size(180, 23);
             this.bt_recuperar_xml_nfe_distribuicao_2.TabIndex = 45;
@@ -789,7 +793,7 @@
             // 
             this.bt_imprimir_danfe_semvalorfiscal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.bt_imprimir_danfe_semvalorfiscal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.bt_imprimir_danfe_semvalorfiscal.Location = new System.Drawing.Point(1035, 538);
+            this.bt_imprimir_danfe_semvalorfiscal.Location = new System.Drawing.Point(1035, 319);
             this.bt_imprimir_danfe_semvalorfiscal.Name = "bt_imprimir_danfe_semvalorfiscal";
             this.bt_imprimir_danfe_semvalorfiscal.Size = new System.Drawing.Size(180, 41);
             this.bt_imprimir_danfe_semvalorfiscal.TabIndex = 61;
@@ -821,12 +825,61 @@
             this.bt_xml_nfse_csharp.UseVisualStyleBackColor = false;
             this.bt_xml_nfse_csharp.Click += new System.EventHandler(this.bt_xml_nfse_csharp_Click);
             // 
+            // bt_validar_xml_dll
+            // 
+            this.bt_validar_xml_dll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.bt_validar_xml_dll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_validar_xml_dll.Location = new System.Drawing.Point(1035, 366);
+            this.bt_validar_xml_dll.Name = "bt_validar_xml_dll";
+            this.bt_validar_xml_dll.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.bt_validar_xml_dll.Size = new System.Drawing.Size(180, 23);
+            this.bt_validar_xml_dll.TabIndex = 64;
+            this.bt_validar_xml_dll.Text = "Validar XML com a DLL";
+            this.bt_validar_xml_dll.UseVisualStyleBackColor = false;
+            this.bt_validar_xml_dll.Click += new System.EventHandler(this.bt_validar_xml_dll_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(633, 272);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(38, 13);
+            this.label9.TabIndex = 65;
+            this.label9.Text = "GNRE";
+            // 
+            // bt_cancelar_nfse_gnre
+            // 
+            this.bt_cancelar_nfse_gnre.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.bt_cancelar_nfse_gnre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_cancelar_nfse_gnre.Location = new System.Drawing.Point(636, 288);
+            this.bt_cancelar_nfse_gnre.Name = "bt_cancelar_nfse_gnre";
+            this.bt_cancelar_nfse_gnre.Size = new System.Drawing.Size(180, 23);
+            this.bt_cancelar_nfse_gnre.TabIndex = 66;
+            this.bt_cancelar_nfse_gnre.Text = "Cancelar NFSe";
+            this.bt_cancelar_nfse_gnre.UseVisualStyleBackColor = false;
+            // 
+            // bt_consulta_confg_uf
+            // 
+            this.bt_consulta_confg_uf.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.bt_consulta_confg_uf.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bt_consulta_confg_uf.Location = new System.Drawing.Point(636, 317);
+            this.bt_consulta_confg_uf.Name = "bt_consulta_confg_uf";
+            this.bt_consulta_confg_uf.Size = new System.Drawing.Size(180, 23);
+            this.bt_consulta_confg_uf.TabIndex = 67;
+            this.bt_consulta_confg_uf.Text = "Consulta Configuração UF";
+            this.bt_consulta_confg_uf.UseVisualStyleBackColor = false;
+            this.bt_consulta_confg_uf.Click += new System.EventHandler(this.bt_consulta_confg_uf_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1229, 593);
+            this.Controls.Add(this.bt_consulta_confg_uf);
+            this.Controls.Add(this.bt_cancelar_nfse_gnre);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.bt_validar_xml_dll);
             this.Controls.Add(this.bt_xml_nfse_csharp);
             this.Controls.Add(this.bt_distribuicao_dfe_cte);
             this.Controls.Add(this.bt_imprimir_danfe_semvalorfiscal);
@@ -967,6 +1020,10 @@
         private System.Windows.Forms.Button bt_imprimir_danfe_semvalorfiscal;
         private System.Windows.Forms.Button bt_distribuicao_dfe_cte;
         private System.Windows.Forms.Button bt_xml_nfse_csharp;
+        private System.Windows.Forms.Button bt_validar_xml_dll;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button bt_cancelar_nfse_gnre;
+        private System.Windows.Forms.Button bt_consulta_confg_uf;
     }
 }
 
