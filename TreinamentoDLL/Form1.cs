@@ -46,7 +46,7 @@ namespace TreinamentoDLL
 
         #region Certificado Digital
         //Caminho Certificado Digital A1
-        private static string PathCertificadoDigital { get; set; } = @"C:\Users\Everson\Desktop\Unimake_PV.pfx";
+        private static string PathCertificadoDigital { get; set; } = @"C:\Projetos\Unimake_PV.pfx";
 
         //Senha de uso do Certificado Digital A1
         private static string SenhaCertificadoDigital { get; set; } = @"12345678";
@@ -363,7 +363,7 @@ namespace TreinamentoDLL
 
             //Gravar o arquivo do conteúdo retornado em uma pasta qualquer para ter em segurança.
             //Pode-se também gravar na base de dados. Fica a critério de cada um.
-            File.WriteAllText(@"c:\testenfe\retorno\nomearquivoretorno.xml", autorizacao.RetornoWSString);
+            File.WriteAllText(@"C:\ProjetoLivesDLL\testenfe\retorno\arquivoretorno.xml", autorizacao.RetornoWSString);
 
             if (autorizacao.Result.ProtNFe != null)
             {
@@ -594,7 +594,7 @@ namespace TreinamentoDLL
                     retAutorizacao.Executar();
 
                     autorizacao.RetConsReciNFe = retAutorizacao.Result;
-                    autorizacao.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\TreinamentoDLL");
+                    autorizacao.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\testenfe");
 
                     #endregion
                 }
@@ -616,7 +616,7 @@ namespace TreinamentoDLL
                 autorizacao.RetConsSitNFes.Add(consultaProtocolo.Result);
             }
 
-            autorizacao.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\TreinamentoDLL");
+            autorizacao.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\testenfe");
 
             #endregion
         }
@@ -624,27 +624,27 @@ namespace TreinamentoDLL
         private void bt_env_nfe_assinc_lote_Click(object sender, EventArgs e)
         {
             {
-                var xml = new EnviNFe
+                var xml = new XmlNFe.EnviNFe
                 {
                     Versao = "4.00",
                     IdLote = "000000000000001",
                     IndSinc = SimNao.Nao,
-                    NFe = new List<NFe>         //Construindo a Lista NFe
+                    NFe = new List<XmlNFe.NFe>
+                {
+                    new XmlNFe.NFe
                     {
-                        new NFe                 //Construindo uma nota NFe
-                    {
-                        InfNFe = new List<InfNFe>
+                        InfNFe = new List<XmlNFe.InfNFe>
                         {
-                            new InfNFe
+                            new XmlNFe.InfNFe
                             {
                                 Versao = "4.00",
-                                Ide = new Ide       //Identificação
+                                Ide = new XmlNFe.Ide
                                 {
                                     CUF = UFBrasil.PR,
-                                    NatOp = "VENDA PRODUC. DO ESTABELECIMENTO",
+                                    NatOp = "VENDA PRODUC.DO ESTABELEC",
                                     Mod = ModeloDFe.NFe,
                                     Serie = 1,
-                                    NNF = 57988,
+                                    NNF = 57980,
                                     DhEmi = DateTime.Now,
                                     DhSaiEnt = DateTime.Now,
                                     TpNF = TipoOperacao.Saida,
@@ -659,12 +659,12 @@ namespace TreinamentoDLL
                                     ProcEmi = ProcessoEmissao.AplicativoContribuinte,
                                     VerProc = "TESTE 1.00"
                                 },
-                                Emit = new Emit     //Emitente
+                                Emit = new XmlNFe.Emit
                                 {
                                     CNPJ = "06117473000150",
                                     XNome = "UNIMAKE SOLUCOES CORPORATIVAS LTDA",
                                     XFant = "UNIMAKE - PARANAVAI",
-                                    EnderEmit = new EnderEmit       //Endereço Emitente
+                                    EnderEmit = new XmlNFe.EnderEmit
                                     {
                                         XLgr = "RUA ANTONIO FELIPE",
                                         Nro = "1500",
@@ -680,11 +680,11 @@ namespace TreinamentoDLL
                                     CNAE = "6202300",
                                     CRT = CRT.SimplesNacional
                                 },
-                                Dest = new Dest     //Destinatário
+                                Dest = new XmlNFe.Dest
                                 {
                                     CNPJ = "04218457000128",
                                     XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
-                                    EnderDest = new EnderDest       //Endereço Destinatário
+                                    EnderDest = new XmlNFe.EnderDest
                                     {
                                         XLgr = "AVENIDA DA SAUDADE",
                                         Nro = "1555",
@@ -699,11 +699,10 @@ namespace TreinamentoDLL
                                     IE = "582614838110",
                                     Email = "janelaorp@janelaorp.com.br"
                                 },
-                                Det = CriarDet(),       //Percorrer todos os produtos
-
-                                Total = new Total
+                                Det = CriarDet(),
+                                Total = new XmlNFe.Total
                                 {
-                                    ICMSTot = new ICMSTot
+                                    ICMSTot = new XmlNFe.ICMSTot
                                     {
                                         VBC = 0,
                                         VICMS = 0,
@@ -713,7 +712,7 @@ namespace TreinamentoDLL
                                         VST = 0,
                                         VFCPST = 0,
                                         VFCPSTRet = 0,
-                                        VProd = 84.90,
+                                        VProd = 169.80,
                                         VFrete = 0,
                                         VSeg = 0,
                                         VDesc = 0,
@@ -723,16 +722,16 @@ namespace TreinamentoDLL
                                         VPIS = 0,
                                         VCOFINS = 0,
                                         VOutro = 0,
-                                        VNF = 84.90,
-                                        VTotTrib = 12.63
+                                        VNF = 169.80,
+                                        VTotTrib = 25.26
                                     }
                                 },
-                                Transp = new Transp
+                                Transp = new XmlNFe.Transp
                                 {
                                     ModFrete = ModalidadeFrete.ContratacaoFretePorContaRemetente_CIF,
-                                    Vol = new List<Vol>
+                                    Vol = new List<XmlNFe.Vol>
                                     {
-                                        new Vol
+                                        new XmlNFe.Vol
                                         {
                                             QVol = 1,
                                             Esp = "LU",
@@ -742,42 +741,42 @@ namespace TreinamentoDLL
                                         }
                                     }
                                 },
-                                Cobr = new Cobr()
+                                Cobr = new XmlNFe.Cobr()
                                 {
-                                    Fat = new Fat
+                                    Fat = new XmlNFe.Fat
                                     {
                                         NFat = "057910",
-                                        VOrig = 84.90,
+                                        VOrig = 169.80,
                                         VDesc = 0,
-                                        VLiq = 84.90
+                                        VLiq = 169.80
                                     },
-                                    Dup = new List<Dup>
+                                    Dup = new List<XmlNFe.Dup>
                                     {
-                                        new Dup
+                                        new XmlNFe.Dup
                                         {
                                             NDup = "001",
                                             DVenc = DateTime.Now,
-                                            VDup = 84.90
+                                            VDup = 169.80
                                         }
                                     }
                                 },
-                                Pag = new Pag
+                                Pag = new XmlNFe.Pag
                                 {
-                                    DetPag = new List<DetPag>
+                                    DetPag = new List<XmlNFe.DetPag>
                                     {
-                                            new DetPag
-                                            {
-                                                IndPag = IndicadorPagamento.PagamentoVista,
-                                                TPag = MeioPagamento.Dinheiro,
-                                                VPag = 84.90
-                                            }
+                                        new XmlNFe.DetPag
+                                        {
+                                            IndPag = IndicadorPagamento.PagamentoVista,
+                                            TPag = MeioPagamento.Dinheiro,
+                                            VPag = 169.80
+                                        }
                                     }
                                 },
-                                InfAdic = new InfAdic
+                                InfAdic = new XmlNFe.InfAdic
                                 {
-                                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474; Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
+                                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
                                 },
-                                InfRespTec = new InfRespTec
+                                InfRespTec = new XmlNFe.InfRespTec
                                 {
                                     CNPJ = "06117473000150",
                                     XContato = "Wandrey Mundin Ferreira",
@@ -787,20 +786,20 @@ namespace TreinamentoDLL
                             }
                         }
                     },
-                    new NFe                 //Duplicando a nota
+                    new XmlNFe.NFe
                     {
-                        InfNFe = new List<InfNFe>
+                        InfNFe = new List<XmlNFe.InfNFe>
                         {
-                            new InfNFe
+                            new XmlNFe.InfNFe
                             {
                                 Versao = "4.00",
-                                Ide = new Ide       //Identificação
+                                Ide = new XmlNFe.Ide
                                 {
                                     CUF = UFBrasil.PR,
-                                    NatOp = "VENDA PRODUC. DO ESTABELECIMENTO",
+                                    NatOp = "VENDA PRODUC.DO ESTABELEC",
                                     Mod = ModeloDFe.NFe,
                                     Serie = 1,
-                                    NNF = 57988,
+                                    NNF = 57980,
                                     DhEmi = DateTime.Now,
                                     DhSaiEnt = DateTime.Now,
                                     TpNF = TipoOperacao.Saida,
@@ -815,12 +814,12 @@ namespace TreinamentoDLL
                                     ProcEmi = ProcessoEmissao.AplicativoContribuinte,
                                     VerProc = "TESTE 1.00"
                                 },
-                                Emit = new Emit     //Emitente
+                                Emit = new XmlNFe.Emit
                                 {
                                     CNPJ = "06117473000150",
                                     XNome = "UNIMAKE SOLUCOES CORPORATIVAS LTDA",
                                     XFant = "UNIMAKE - PARANAVAI",
-                                    EnderEmit = new EnderEmit       //Endereço Emitente
+                                    EnderEmit = new XmlNFe.EnderEmit
                                     {
                                         XLgr = "RUA ANTONIO FELIPE",
                                         Nro = "1500",
@@ -836,11 +835,11 @@ namespace TreinamentoDLL
                                     CNAE = "6202300",
                                     CRT = CRT.SimplesNacional
                                 },
-                                Dest = new Dest     //Destinatário
+                                Dest = new XmlNFe.Dest
                                 {
                                     CNPJ = "04218457000128",
                                     XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
-                                    EnderDest = new EnderDest       //Endereço Destinatário
+                                    EnderDest = new XmlNFe.EnderDest
                                     {
                                         XLgr = "AVENIDA DA SAUDADE",
                                         Nro = "1555",
@@ -855,11 +854,10 @@ namespace TreinamentoDLL
                                     IE = "582614838110",
                                     Email = "janelaorp@janelaorp.com.br"
                                 },
-                                Det = CriarDet(),       //Percorrer todos os produtos
-
-                                Total = new Total
+                                Det = CriarDet(),
+                                Total = new XmlNFe.Total
                                 {
-                                    ICMSTot = new ICMSTot
+                                    ICMSTot = new XmlNFe.ICMSTot
                                     {
                                         VBC = 0,
                                         VICMS = 0,
@@ -869,7 +867,7 @@ namespace TreinamentoDLL
                                         VST = 0,
                                         VFCPST = 0,
                                         VFCPSTRet = 0,
-                                        VProd = 84.90,
+                                        VProd = 169.80,
                                         VFrete = 0,
                                         VSeg = 0,
                                         VDesc = 0,
@@ -879,16 +877,16 @@ namespace TreinamentoDLL
                                         VPIS = 0,
                                         VCOFINS = 0,
                                         VOutro = 0,
-                                        VNF = 84.90,
-                                        VTotTrib = 12.63
+                                        VNF = 169.80,
+                                        VTotTrib = 25.26
                                     }
                                 },
-                                Transp = new Transp
+                                Transp = new XmlNFe.Transp
                                 {
                                     ModFrete = ModalidadeFrete.ContratacaoFretePorContaRemetente_CIF,
-                                    Vol = new List<Vol>
+                                    Vol = new List<XmlNFe.Vol>
                                     {
-                                        new Vol
+                                        new XmlNFe.Vol
                                         {
                                             QVol = 1,
                                             Esp = "LU",
@@ -898,42 +896,42 @@ namespace TreinamentoDLL
                                         }
                                     }
                                 },
-                                Cobr = new Cobr()
+                                Cobr = new XmlNFe.Cobr()
                                 {
-                                    Fat = new Fat
+                                    Fat = new XmlNFe.Fat
                                     {
                                         NFat = "057910",
-                                        VOrig = 84.90,
+                                        VOrig = 169.80,
                                         VDesc = 0,
-                                        VLiq = 84.90
+                                        VLiq = 169.80
                                     },
-                                    Dup = new List<Dup>
+                                    Dup = new List<XmlNFe.Dup>
                                     {
-                                        new Dup
+                                        new XmlNFe.Dup
                                         {
                                             NDup = "001",
                                             DVenc = DateTime.Now,
-                                            VDup = 84.90
+                                            VDup = 169.80
                                         }
                                     }
                                 },
-                                Pag = new Pag
+                                Pag = new XmlNFe.Pag
                                 {
-                                    DetPag = new List<DetPag>
+                                    DetPag = new List<XmlNFe.DetPag>
                                     {
-                                            new DetPag
-                                            {
-                                                IndPag = IndicadorPagamento.PagamentoVista,
-                                                TPag = MeioPagamento.Dinheiro,
-                                                VPag = 84.90
-                                            }
+                                        new XmlNFe.DetPag
+                                        {
+                                            IndPag = IndicadorPagamento.PagamentoVista,
+                                            TPag = MeioPagamento.Dinheiro,
+                                            VPag = 169.80
+                                        }
                                     }
                                 },
-                                InfAdic = new InfAdic
+                                InfAdic = new XmlNFe.InfAdic
                                 {
-                                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474; Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
+                                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
                                 },
-                                InfRespTec = new InfRespTec
+                                InfRespTec = new XmlNFe.InfRespTec
                                 {
                                     CNPJ = "06117473000150",
                                     XContato = "Wandrey Mundin Ferreira",
@@ -945,6 +943,7 @@ namespace TreinamentoDLL
                     }
                 }
                 };
+
                 var configuracao = new Configuracao
                 {
                     TipoDFe = TipoDFe.NFe,
@@ -952,7 +951,7 @@ namespace TreinamentoDLL
                     CertificadoDigital = CertificadoSelecionado
                 };
 
-                var autorizacao = new Autorizacao(xml, configuracao);       //Consumindo o serviço
+                var autorizacao = new ServicoNFe.Autorizacao(xml, configuracao);       //Consumindo o serviço
                 autorizacao.Executar();
 
                 var configSit = new Configuracao
@@ -967,7 +966,7 @@ namespace TreinamentoDLL
                     {
                         #region Finalizar através da consulta recibo
 
-                        var xmlRec = new ConsReciNFe
+                        var xmlRec = new XmlNFe.ConsReciNFe
                         {
                             Versao = "4.00",
                             TpAmb = TipoAmbiente.Homologacao,
@@ -980,11 +979,11 @@ namespace TreinamentoDLL
                             CertificadoDigital = CertificadoSelecionado
                         };
 
-                        var retAutorizacao = new RetAutorizacao(xmlRec, configRec);
+                        var retAutorizacao = new ServicoNFe.RetAutorizacao(xmlRec, configRec);
                         retAutorizacao.Executar();
 
                         autorizacao.RetConsReciNFe = retAutorizacao.Result;
-                        autorizacao.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\TreinamentoDLL");
+                        autorizacao.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\testenfe");
 
                         #endregion
                     }
@@ -1137,17 +1136,19 @@ namespace TreinamentoDLL
             #region Deserializar XML da NFe sem o lote
 
             var doc = new XmlDocument();
-            doc.Load(@"C:\ProjetoLivesDLL\TreinamentoDLL\Recursos\NFe.xml");
+            doc.Load(@"C:\ProjetoLivesDLL\recursos\41170706117473000150550010000463201612756527-nfe.xml");
 
-            var xml = new EnviNFe
+            var xml = new XmlNFe.EnviNFe
             {
                 IdLote = "000000000000001",
                 IndSinc = SimNao.Sim,
                 Versao = "4.00"
             };
 
-            xml.NFe = new List<NFe>();
-            xml.NFe.Add(XMLUtility.Deserializar<NFe>(doc));
+            xml.NFe = new List<XmlNFe.NFe>
+            {
+                XMLUtility.Deserializar<XmlNFe.NFe>(doc)
+            };
 
             var configuracao = new Configuracao
             {
@@ -1156,7 +1157,7 @@ namespace TreinamentoDLL
                 CertificadoDigital = CertificadoSelecionado
             };
 
-            var autorizacao = new Autorizacao(xml, configuracao);
+            var autorizacao = new ServicoNFe.Autorizacao(xml, configuracao);
             autorizacao.Executar();
 
             #endregion
@@ -1164,35 +1165,35 @@ namespace TreinamentoDLL
 
         private void bt_env_evento_cce_Click(object sender, EventArgs e)
         {
-            var xml = new EnvEvento
+            var xml = new XmlNFe.EnvEvento
             {
                 Versao = "1.00",
                 IdLote = "000000000000001",
-                Evento = new List<Evento>
+                Evento = new List<XmlNFe.Evento>
                 {
-                    new Evento
+                    new XmlNFe.Evento
                     {
                         Versao = "1.00",
-                        InfEvento = new InfEvento(new DetEventoCCE
+                        InfEvento = new XmlNFe.InfEvento(new XmlNFe.DetEventoCCE
                         {
                             Versao = "1.00",
                             XCorrecao = "CFOP errada, segue CFOP correta. teste."
                         })
                         {
                             COrgao = UFBrasil.PR,
-                            ChNFe = "41201280568835000181580010000010411406004656",
+                            ChNFe = "41191006117473000150550010000579281779843610",
                             CNPJ = "06117473000150",
                             DhEvento = DateTime.Now,
-                            TpEvento = TipoEventoNFe.Cancelamento,
-                            NSeqEvento = 1,
+                            TpEvento = TipoEventoNFe.CartaCorrecao,
+                            NSeqEvento = 3,
                             VerEvento = "1.00",
                             TpAmb = TipoAmbiente.Homologacao
                         }
                     },
-                    new Evento
+                    new XmlNFe.Evento
                     {
                         Versao = "1.00",
-                        InfEvento = new InfEvento(new DetEventoCCE
+                        InfEvento = new XmlNFe.InfEvento(new XmlNFe.DetEventoCCE
                         {
                             Versao = "1.00",
                             XCorrecao = "Nome do transportador está errado, segue nome correto."
@@ -1210,13 +1211,14 @@ namespace TreinamentoDLL
                     }
                 }
             };
+
             var configuracao = new Configuracao
             {
                 TipoDFe = TipoDFe.NFe,
                 CertificadoDigital = CertificadoSelecionado
             };
 
-            var recepcaoEvento = new RecepcaoEvento(xml, configuracao);
+            var recepcaoEvento = new ServicoNFe.RecepcaoEvento(xml, configuracao);
             recepcaoEvento.Executar();
 
             if (recepcaoEvento.Result.CStat == 128)      //128 -> Lote de evento processado com suceso
@@ -1239,7 +1241,7 @@ namespace TreinamentoDLL
         {
             var config = new DANFe.Configurations.UnidanfeConfiguration
             {
-                Arquivo = @"F:\adm\NFe\Emp0001_Fil002_Envio\Enviadas\Autorizados\202202\41220206117473000150550010000717301715751703-procNFe.xml",
+                Arquivo = @"C:\ProjetoLivesDLL\recursos\41170706117473000150550010000463201612756527-nfe.xml",
                 Visualizar = true,
                 Imprimir = false,
                 EnviaEmail = false,
@@ -1252,6 +1254,63 @@ namespace TreinamentoDLL
         private void bt_exe_config_danfe_Click(object sender, EventArgs e)
         {
             DANFe.UnidanfeServices.ShowConfigurationScreen();
+        }
+
+        private void bt_enviar_evento_epec_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlNFe.EnvEvento
+            {
+                Versao = "1.00",
+                IdLote = "000000000000001",
+                Evento = new List<XmlNFe.Evento> {
+                        new XmlNFe.Evento
+                        {
+                            Versao = "1.00",
+                            InfEvento = new XmlNFe.InfEvento(new XmlNFe.DetEventoEPEC
+                            {
+                                COrgaoAutor = UFBrasil.PR,
+                                TpAutor = TipoAutor.EmpresaEmitente,
+                                VerAplic = "1.00",
+                                TpNF = TipoOperacao.Saida,
+                                DhEmi = DateTime.Now,
+                                IE = "9032000301",
+                                Versao = "1.00",
+                                Dest = new XmlNFe.DetEventoEPECDest
+                                {
+                                    CNPJ = "06117473000150",
+                                    UF = UFBrasil.PR,
+                                    VNF = 86.00,
+                                    VICMS = 6.02,
+                                    VST = 0.00
+                                }
+                            })
+                            {
+                                COrgao = UFBrasil.AN,
+                                ChNFe = "41190806117473000150550010000579131943463890",
+                                CNPJ = "06117473000150",
+                                DhEvento = DateTime.Now,
+                                TpEvento = TipoEventoNFe.EPEC,
+                                NSeqEvento = 1,
+                                VerEvento = "1.00",
+                                TpAmb = TipoAmbiente.Homologacao
+                            }
+                        }
+                    }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var recepcaoEvento = new ServicoNFe.RecepcaoEvento(xml, configuracao);
+            recepcaoEvento.Executar();
+
+            var xmlResgatado = XMLUtility.Deserializar<XmlNFe.EnviNFe>("String do meu xml que eu guardei anteriormente");
+
+            var autorizacao = new ServicoNFe.Autorizacao(xmlResgatado, configuracao);
+            autorizacao.Executar();
         }
 
         private void bt_recuperar_xml_nfe_distribuicao_Click(object sender, EventArgs e)
@@ -1445,10 +1504,10 @@ namespace TreinamentoDLL
             var chaveNFe = xml.NFe[0].InfNFe[0].Chave;
 
             //Salvar o XML da nota em uma pasta ou no banco de dados antes de tentar enviar para a SEFAZ
-            File.WriteAllText(@"d:\testenfe\xmlnfe-nfe.xml", autorizacao.ConteudoXMLAssinado.GetElementsByTagName("NFe")[0].OuterXml);
+            File.WriteAllText(@"C:\ProjetoLivesDLL\recursos\NFe.xml", autorizacao.ConteudoXMLAssinado.GetElementsByTagName("NFe")[0].OuterXml);
 
             //Se conseguiu salvar a nota e está tudo certo, daí sim enviar, conforma abaixo. Mas só envie se tiver garantia que o XML foi salvo acima. Eu vou fazer um teste simples que é ver se o XML existe.
-            if (File.Exists(@"d:\testenfe\xmlnfe-nfe.xml"))
+            if (File.Exists(@"C:\ProjetoLivesDLL\recursos\NFe.xml"))
             {
                 autorizacao.Executar();
             }
@@ -1464,7 +1523,7 @@ namespace TreinamentoDLL
             #region Resgatar o XML guardado
 
             var doc = new XmlDocument();
-            doc.Load(@"d:\testenfe\xmlnfe-nfe.xml");
+            doc.Load(@"C:\ProjetoLivesDLL\recursos\NFe.xml");
 
             var xmlNFe = new XmlNFe.EnviNFe
             {
@@ -1518,12 +1577,13 @@ namespace TreinamentoDLL
                 };
                 autorizacao.RetConsSitNFes.Add(consultaProtocolo.Result);
 
-                autorizacao.GravarXmlDistribuicao(@"d:\testenfe");
+                autorizacao.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\testenfe");
             }
             #endregion
         }
 
         //Fim Serviços NFe
+
 
         //Serviços NFCe
 
@@ -1799,7 +1859,7 @@ namespace TreinamentoDLL
                     case 301: //Uso Denegado: Irregularidade fiscal do emitente
                     case 302: //Uso Denegado: Irregularidade fiscal do destinatário
                     case 303: //Uso Denegado: Destinatário não habilitado a operar na UF
-                        autorizacao.GravarXmlDistribuicao(@"c:\testenfe\");
+                        autorizacao.GravarXmlDistribuicao(@"C:\testenfe\");
                         var docProcNFe = autorizacao.NfeProcResult.GerarXML(); //Gerar o Objeto para pegar a string e gravar em banco de dados
                         MessageBox.Show(autorizacao.NfeProcResult.NomeArquivoDistribuicao);
                         break;
@@ -2026,7 +2086,7 @@ namespace TreinamentoDLL
 
             StreamWriter streamWriter = null;
 
-            var arqXMLNFCe = Path.Combine(@"D:\testenfe\NFCeOffline", autorizacao.EnviNFe.NFe[0].InfNFe[0].Chave + "-nfe.xml");
+            var arqXMLNFCe = Path.Combine(@"C:\ProjetoLivesDLL\recursos\41170706117473000150550010000463201612756527-nfe.xml");
 
             try
             {
@@ -2167,7 +2227,7 @@ namespace TreinamentoDLL
                 {
                     case 135: //Evento homologado
                     case 155: //Evento homologado fora do prazo
-                        recepcaoEvento.GravarXmlDistribuicao(@"d:\testenfe");
+                        recepcaoEvento.GravarXmlDistribuicao(@"C:\testenfe");
                         break;
 
                     default:
@@ -2264,7 +2324,7 @@ namespace TreinamentoDLL
             switch (inutilizacao.Result.InfInut.CStat)
             {
                 case 102: //Inutilização Homologada
-                    inutilizacao.GravarXmlDistribuicao(@"d:\testenfe\");
+                    inutilizacao.GravarXmlDistribuicao(@"C:\testenfe\");
                     break;
 
                 default:
@@ -2274,6 +2334,7 @@ namespace TreinamentoDLL
         }
 
         //Fim Serviços NFCe
+
 
         //Serviços MDFe
 
@@ -2899,9 +2960,12 @@ namespace TreinamentoDLL
             var autorizacaoSinc = new ServicoMDFe.AutorizacaoSinc(xml, config);
             autorizacaoSinc.Executar();
 
-            if(autorizacaoSinc.Result.ProtMDFe.InfProt.CStat == 100)
+            if (autorizacaoSinc.Result.CStat == 100)
             {
-                MessageBox.Show(autorizacaoSinc.Result.ProtMDFe.InfProt.NProt);
+                if (autorizacaoSinc.Result.ProtMDFe.InfProt.CStat == 100)
+                {
+                    MessageBox.Show(autorizacaoSinc.Result.ProtMDFe.InfProt.NProt);
+                }
             }
         }
 
@@ -2944,7 +3008,7 @@ namespace TreinamentoDLL
                 case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo MDFecom situação diferente de Autorizada.
                 case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo MDFe
                 case 136: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento ao respectivo MDFe prejudicado
-                    recepcaoEvento.GravarXmlDistribuicao(@"d:\testenfe");
+                    recepcaoEvento.GravarXmlDistribuicao(@"C:\testenfe");
                     break;
 
                 default:
@@ -3026,43 +3090,249 @@ namespace TreinamentoDLL
             MessageBox.Show(consultaMDFeNaoEnc.RetornoWSString);
         }
 
+        private void bt_enviar_evento_pagamento_mdfe_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlMDFe.EventoMDFe
+            {
+                Versao = "3.00",
+                InfEvento = new XmlMDFe.InfEvento(new XmlMDFe.DetEventoPagtoOperMDFe
+                {
+                    VersaoEvento = "3.00",
+                    EventoPagtoOperMDFe = new XmlMDFe.EventoPagtoOperMDFe
+                    {
+                        DescEvento = "Pagamento Operacao MDF-e",
+                        NProt = "941190000014312",
+                        InfViagens = new XmlMDFe.InfViagens
+                        {
+                            NroViagem = "00001",
+                            QtdViagens = "00001"
+                        },
+                        InfPag = new List<XmlMDFe.PagtoOperMDFeInfPag>
+                            {
+                                new XmlMDFe.PagtoOperMDFeInfPag
+                                {
+                                    XNome = "TESTE TRANSPORTE E OPERACOES LTDA",
+                                    CNPJ = "00000000000000",
+                                    Comp = new List<XmlMDFe.Comp>
+                                    {
+                                        new XmlMDFe.Comp
+                                        {
+                                            TpComp = TipoComponenteMDFe.Outros,
+                                            VComp = 2000.00,
+                                            XComp = "PAGAMENTO DE FRETE"
+                                        },
+                                        new XmlMDFe.Comp
+                                        {
+                                            TpComp = TipoComponenteMDFe.ValePedagio,
+                                            VComp = 500.00
+                                        },
+                                        new XmlMDFe.Comp
+                                        {
+                                            TpComp = TipoComponenteMDFe.Outros,
+                                            VComp = 500.00,
+                                            XComp = "COMPRA DE PNEUS"
+                                        }
+                                    },
+                                    VContrato = 3000.00,
+                                    IndPag = IndicadorPagamento.PagamentoPrazo,
+                                    VAdiant = 500.00,
+                                    InfPrazo = new List<XmlMDFe.InfPrazo>
+                                    {
+                                        new XmlMDFe.InfPrazo
+                                        {
+                                            NParcela = "001",
+                                            DVenc = DateTime.Now.AddDays(20),
+                                            VParcela = 2000.00
+                                        },
+                                        new XmlMDFe.InfPrazo
+                                        {
+                                            NParcela = "002",
+                                            DVenc = DateTime.Now.AddDays(40),
+                                            VParcela = 500.00
+                                        }
+                                    },
+                                    InfBanc = new XmlMDFe.InfBanc
+                                    {
+                                        PIX = "+5544993333223"
+                                    }
+                                }
+                            }
+                    }
+                })
+                {
+                    COrgao = UFBrasil.PR,
+                    ChMDFe = "41200380568835000181580010000007171930099252",
+                    CNPJ = "80568835000181",
+                    DhEvento = DateTime.Now,
+                    TpEvento = TipoEventoMDFe.PagamentoOperacao,
+                    NSeqEvento = 1,
+                    TpAmb = TipoAmbiente.Homologacao
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.MDFe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var recepcaoEvento = new ServicoMDFe.RecepcaoEvento(xml, configuracao);
+            recepcaoEvento.Executar();
+
+            //Gravar o XML de distribuição do evento, se homologado/autorizado
+            switch (recepcaoEvento.Result.InfEvento.CStat)
+            {
+                case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo CT-e com situação diferente de Autorizada.
+                case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo CTe.
+                case 136: //Recebido pelo Sistema de Registro de Eventos – vinculação do evento ao respectivo CT-e prejudicado.
+                    recepcaoEvento.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\testenfe");
+                    break;
+
+                default:
+                    //Quando o evento é rejeitado pela Sefaz.
+                    break;
+            }
+        }
+
+        private void bt_enviar_evento_alteracao_mdfe_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlMDFe.EventoMDFe
+            {
+                Versao = "3.00",
+                InfEvento = new XmlMDFe.InfEvento(new XmlMDFe.DetEventoAlteracaoPagtoServMDFe
+                {
+                    VersaoEvento = "3.00",
+
+                    EventoAlteracaoPagtoServMDFe = new XmlMDFe.EventoAlteracaoPagtoServMDFe
+                    {
+                        DescEvento = "Alteracao Pagamento Servico MDFe",
+                        NProt = "941190000014312",
+                        InfPag = new List<XmlMDFe.AlteracaoPagtoServMDFeInfPag>
+                            {
+                                new XmlMDFe.AlteracaoPagtoServMDFeInfPag
+                                {
+                                    XNome = "TESTE TRANSPORTE E OPERACOES LTDA",
+                                    CNPJ = "00000000000000",
+                                    Comp = new List<XmlMDFe.Comp>
+                                    {
+                                        new XmlMDFe.Comp
+                                        {
+                                            TpComp = TipoComponenteMDFe.Outros,
+                                            VComp = 2000.00,
+                                            XComp = "PAGAMENTO DE FRETE"
+                                        },
+                                        new XmlMDFe.Comp
+                                        {
+                                            TpComp = TipoComponenteMDFe.ValePedagio,
+                                            VComp = 500.00
+                                        },
+                                        new XmlMDFe.Comp
+                                        {
+                                            TpComp = TipoComponenteMDFe.Outros,
+                                            VComp = 500.00,
+                                            XComp = "COMPRA DE PNEUS"
+                                        }
+                                    },
+                                    VContrato = 3000.00,
+                                    IndPag = IndicadorPagamento.PagamentoPrazo,
+                                    VAdiant = 500.00,
+                                    InfPrazo = new List<XmlMDFe.InfPrazo>
+                                    {
+                                        new XmlMDFe.InfPrazo
+                                        {
+                                            NParcela = "001",
+                                            DVenc = DateTime.Now.AddDays(20),
+                                            VParcela = 2000.00
+                                        },
+                                        new XmlMDFe.InfPrazo
+                                        {
+                                            NParcela = "002",
+                                            DVenc = DateTime.Now.AddDays(40),
+                                            VParcela = 500.00
+                                        }
+                                    },
+                                    InfBanc = new XmlMDFe.InfBanc
+                                    {
+                                        PIX = "+5544993333223"
+                                    }
+                                }
+                            }
+                    }
+                })
+                {
+                    COrgao = UFBrasil.PR,
+                    ChMDFe = "41200380568835000181580010000007171930099252",
+                    CNPJ = "80568835000181",
+                    DhEvento = DateTime.Now,
+                    TpEvento = TipoEventoMDFe.AlteracaoPagamentoServico,
+                    NSeqEvento = 1,
+                    TpAmb = TipoAmbiente.Homologacao
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.MDFe,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            var recepcaoEvento = new ServicoMDFe.RecepcaoEvento(xml, configuracao);
+            recepcaoEvento.Executar();
+
+            //Gravar o XML de distribuição do evento, se homologado/autorizado
+            switch (recepcaoEvento.Result.InfEvento.CStat)
+            {
+                case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo CT-e com situação diferente de Autorizada.
+                case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo CTe.
+                case 136: //Recebido pelo Sistema de Registro de Eventos – vinculação do evento ao respectivo CT-e prejudicado.
+                    recepcaoEvento.GravarXmlDistribuicao(@"C:\ProjetoLivesDLL\testenfe");
+                    break;
+
+                default:
+                    //Quando o evento é rejeitado pela Sefaz.
+                    break;
+            }
+        }
+
         //Fim Serviços MDFe
+
 
         //Serviços NFSe
         private void bt_cancelar_nfse_Click(object sender, EventArgs e)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\CancelarNfseEnvio-ped-cannfse.xml");
+            xmlDoc.Load(@"C:\ProjetoLivesDLL\recursos\CancelarNfseEnvio-ped-cannfse.xml");
 
             var configuracao = new Configuracao
             {
-                TipoDFe = TipoDFe.MDFe,
+                TipoDFe = TipoDFe.NFSe,
                 CertificadoDigital = CertificadoSelecionado,
                 Servico = Servico.NFSeCancelarNfse,
                 SchemaVersao = "2.02",
-                CodigoMunicipio = 5107909
+                TipoAmbiente = TipoAmbiente.Producao,
+                CodigoMunicipio = 4204608
             };
 
-            var cancelarNFSe =  new ServicoNFSe.CancelarNfse(xmlDoc, configuracao);
+            var cancelarNFSe = new ServicoNFSe.CancelarNfse(xmlDoc, configuracao);
             cancelarNFSe.Executar();
 
-            //var teste = new ServicoNFSe.CancelamentoNfe(xmlDoc, configuracao); -> todos os serviços NFSe
-
             MessageBox.Show(cancelarNFSe.RetornoWSString);
+
+            //var teste = new ServicoNFSe.CancelamentoNfe(xmlDoc, configuracao); -> todos os serviços NFSe
         }
 
         private void bt_env_rps_sinc_Click(object sender, EventArgs e)
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\GerarNfseEnvio-env-loterps.xml");
+            xmlDoc.Load(@"C:\ProjetoLivesDLL\recursos\EnviarLoteRpsEnvio-env-loterps.xml");
 
             var configuracao = new Configuracao
             {
                 TipoDFe = TipoDFe.NFSe, 
                 CertificadoDigital = CertificadoSelecionado,
                 Servico = Servico.NFSeGerarNfse,
-                SchemaVersao = "2.04",
-                CodigoMunicipio = 2933307
+                SchemaVersao = "2.02",
+                CodigoMunicipio = 4204608
             };
 
             var gerarNfse = new ServicoNFSe.GerarNfse(xmlDoc, configuracao);
@@ -3074,37 +3344,37 @@ namespace TreinamentoDLL
         private void bt_env_lote_rps_sinc_Click(object sender, EventArgs e)
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\EnviarLoteRpsSincronoEnvio-env-loterps.xml");
+            xmlDoc.Load(@"C:\ProjetoLivesDLL\recursos\GerarNfseEnvio-env-loterps.xml");
 
             var configuracao = new Configuracao
             {
                 TipoDFe = TipoDFe.NFSe,
                 CertificadoDigital = CertificadoSelecionado,
-                Servico = Servico.NFSeRecepcionarLoteRpsSincrono,
-                SchemaVersao = "2.04",
+                Servico = Servico.NFSeGerarNfse,
+                SchemaVersao = "2.02",
                 TipoAmbiente = TipoAmbiente.Producao,
-                CodigoMunicipio = 2933307
+                CodigoMunicipio = 4204608
             };
 
-            var recepcionarLoteRpsSincrono = new ServicoNFSe.RecepcionarLoteRpsSincrono(xmlDoc, configuracao);
-            recepcionarLoteRpsSincrono.Executar();
+            var gerarNfse = new ServicoNFSe.GerarNfse(xmlDoc, configuracao);
+            gerarNfse.Executar();
 
-            MessageBox.Show(recepcionarLoteRpsSincrono.RetornoWSString);
+            MessageBox.Show(gerarNfse.RetornoWSString);
         }
 
         private void bt_env_lote_rps_assinc_Click(object sender, EventArgs e)
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\EnviarLoteRpsEnvio-env-loterps.xml");
+            xmlDoc.Load(@"C:\ProjetoLivesDLL\recursos\EnviarLoteRpsEnvio-env-loterps.xml");
 
             var configuracao = new Configuracao
             {
                 TipoDFe = TipoDFe.NFSe,
                 CertificadoDigital = CertificadoSelecionado,
                 Servico = Servico.NFSeRecepcionarLoteRps,
-                SchemaVersao = "2.04",
+                SchemaVersao = "2.02",
                 TipoAmbiente = TipoAmbiente.Producao,
-                CodigoMunicipio = 2933307
+                CodigoMunicipio = 4204608
             };
 
             var recepcionarLoteRps = new ServicoNFSe.RecepcionarLoteRps(xmlDoc, configuracao);
@@ -3116,14 +3386,14 @@ namespace TreinamentoDLL
         private void bt_consultar_lote_rps_Click(object sender, EventArgs e)
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\ConsultarLoteRpsEnvio-ped-loterps.xml");
+            xmlDoc.Load(@"C:\ProjetoLivesDLL\recursos\ConsultarLoteRpsEnvio-ped-loterps.xml");
 
             var configuracao = new Configuracao
             {
                 TipoDFe = TipoDFe.NFSe,
                 CertificadoDigital = CertificadoSelecionado,
                 Servico = Servico.NFSeConsultarLoteRps,
-                SchemaVersao = "2.04",
+                SchemaVersao = "2.02",
                 TipoAmbiente = TipoAmbiente.Producao,
                 CodigoMunicipio = 2933307
             };
@@ -3137,14 +3407,14 @@ namespace TreinamentoDLL
         private void bt_consultar_nfse_por_rps_Click(object sender, EventArgs e)
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\ConsultarNfseRpsEnvio-ped-sitnfserps.xml");
+            xmlDoc.Load(@"C:\ProjetoLivesDLL\recursos\ConsultarNfseRpsEnvio-ped-sitnfse.xml");
 
             var configuracao = new Configuracao
             {
                 TipoDFe = TipoDFe.NFSe, 
                 CertificadoDigital = CertificadoSelecionado,
                 Servico = Servico.NFSeConsultarNfsePorRps,
-                SchemaVersao = "2.04",
+                SchemaVersao = "2.00",
                 TipoAmbiente = TipoAmbiente.Producao,
                 CodigoMunicipio = 2933307
             };
@@ -3158,16 +3428,16 @@ namespace TreinamentoDLL
         private void bt_substituir_nfse_Click(object sender, EventArgs e)
         {
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"D:\Wandrey\OneDrive\Documentos\Unimake\Treinamentos\LIVEs UniNFe\TreinamentoDLL\Recursos\SubstituirNfseEnvio-ped-substnfse.xml");
+            xmlDoc.Load(@"C:\ProjetoLivesDLL\recursos\SubstituirNfseEnvio-ped-substnfse.xml");
 
             var configuracao = new Configuracao
             {
                 TipoDFe = TipoDFe.NFSe,
                 CertificadoDigital = CertificadoSelecionado,
                 Servico = Servico.NFSeSubstituirNfse,
-                SchemaVersao = "2.04",
+                SchemaVersao = "2.02",
                 TipoAmbiente = TipoAmbiente.Producao,
-                CodigoMunicipio = 2933307
+                CodigoMunicipio = 4204608
             };
 
             var substituirNFse = new ServicoNFSe.SubstituirNfse(xmlDoc, configuracao);
@@ -3329,63 +3599,6 @@ namespace TreinamentoDLL
             statusServico.Executar();
 
             MessageBox.Show(statusServico.Result.CStat + " - " + statusServico.Result.XMotivo);
-        }
-
-        private void bt_enviar_evento_epec_Click(object sender, EventArgs e)
-        {
-            var xml = new XmlNFe.EnvEvento
-            {
-                Versao = "1.00",
-                IdLote = "000000000000001",
-                Evento = new List<XmlNFe.Evento> {
-                        new XmlNFe.Evento
-                        {
-                            Versao = "1.00",
-                            InfEvento = new XmlNFe.InfEvento(new XmlNFe.DetEventoEPEC
-                            {
-                                COrgaoAutor = UFBrasil.PR,
-                                TpAutor = TipoAutor.EmpresaEmitente,
-                                VerAplic = "1.00",
-                                TpNF = TipoOperacao.Saida,
-                                DhEmi = DateTime.Now,
-                                IE = "9032000301",
-                                Versao = "1.00",
-                                Dest = new XmlNFe.DetEventoEPECDest
-                                {
-                                    CNPJ = "06117473000150",
-                                    UF = UFBrasil.PR,
-                                    VNF = 86.00,
-                                    VICMS = 6.02,
-                                    VST = 0.00
-                                }
-                            })
-                            {
-                                COrgao = UFBrasil.AN,
-                                ChNFe = "41190806117473000150550010000579131943463890",
-                                CNPJ = "06117473000150",
-                                DhEvento = DateTime.Now,
-                                TpEvento = TipoEventoNFe.EPEC,
-                                NSeqEvento = 1,
-                                VerEvento = "1.00",
-                                TpAmb = TipoAmbiente.Homologacao
-                            }
-                        }
-                    }
-            };
-
-            var configuracao = new Configuracao
-            {
-                TipoDFe = TipoDFe.NFe,
-                CertificadoDigital = CertificadoSelecionado
-            };
-
-            var recepcaoEvento = new ServicoNFe.RecepcaoEvento(xml, configuracao);
-            recepcaoEvento.Executar();
-
-            var xmlResgatado = XMLUtility.Deserializar<XmlNFe.EnviNFe>("String do meu xml que eu guardei anteriormente");
-
-            var autorizacao = new ServicoNFe.Autorizacao(xmlResgatado, configuracao);
-            autorizacao.Executar();
         }
 
         private void bt_enviar_cte_assinc_lote_Click(object sender, EventArgs e)
@@ -3615,7 +3828,7 @@ namespace TreinamentoDLL
                     if (retAutorizacao.Result.ProtCTe[0].InfProt.CStat == 100) //CTe Autorizado
                     {
                         autorizacao.RetConsReciCTe = retAutorizacao.Result;
-                        autorizacao.GravarXmlDistribuicao(@"d:\testenfe");
+                        autorizacao.GravarXmlDistribuicao(@"C:\testenfe");
                     }
                 } 
             }
@@ -3822,7 +4035,7 @@ namespace TreinamentoDLL
                 {
                     if(autorizacao.Result.ProtCTe.InfProt.CStat == 100)
                     {
-                        autorizacao.GravarXmlDistribuicao(@"c:\testenfe\");
+                        autorizacao.GravarXmlDistribuicao(@"C:\testenfe\");
                     }
                 }
             }
@@ -3864,7 +4077,7 @@ namespace TreinamentoDLL
                 case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo CT-e com situação diferente de Autorizada.
                 case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo CTe.
                 case 136: //Recebido pelo Sistema de Registro de Eventos – vinculação do evento ao respectivo CT-e prejudicado.
-                    recepcaoEvento.GravarXmlDistribuicao(@"c:\testecte\");
+                    recepcaoEvento.GravarXmlDistribuicao(@"C:\testecte\");
                     break;
 
                 default:
@@ -3909,7 +4122,7 @@ namespace TreinamentoDLL
                 case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo CT-e com situação diferente de Autorizada.
                 case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo CTe.
                 case 136: //Recebido pelo Sistema de Registro de Eventos – vinculação do evento ao respectivo CT-e prejudicado.
-                    recepcaoEvento.GravarXmlDistribuicao(@"c:\testecte\");
+                    recepcaoEvento.GravarXmlDistribuicao(@"C:\testecte\");
                     break;
 
                 default:
@@ -3973,7 +4186,7 @@ namespace TreinamentoDLL
                 case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo CT-e com situação diferente de Autorizada.
                 case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo CTe.
                 case 136: //Recebido pelo Sistema de Registro de Eventos – vinculação do evento ao respectivo CT-e prejudicado.
-                    recepcaoEvento.GravarXmlDistribuicao(@"c:\testecte\");
+                    recepcaoEvento.GravarXmlDistribuicao(@"C:\testecte\");
                     break;
 
                 default:
@@ -4037,7 +4250,7 @@ namespace TreinamentoDLL
                 case 134: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respectivo CT-e com situação diferente de Autorizada.
                 case 135: //Recebido pelo Sistema de Registro de Eventos, com vinculação do evento no respetivo CTe.
                 case 136: //Recebido pelo Sistema de Registro de Eventos – vinculação do evento ao respectivo CT-e prejudicado.
-                    recepcaoEvento.GravarXmlDistribuicao(@"c:\testecte\");
+                    recepcaoEvento.GravarXmlDistribuicao(@"C:\testecte\");
                     break;
 
                 default:
@@ -4047,6 +4260,215 @@ namespace TreinamentoDLL
         }
 
         //Fim Serviços CTe e CTeOs
+
+
+        //Serviços GNRE
+
+        private void bt_consulta_confg_uf_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlGNRe.TConsultaConfigUf
+            {
+                Ambiente = TipoAmbiente.Homologacao,
+                UF = UFBrasil.RS,
+                Receita = new XmlGNRe.Receita
+                {
+                    Courier = SimNaoLetra.Nao,
+                    Value = 100064
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.GNRE,
+                TipoEmissao = TipoEmissao.Normal,
+                CertificadoArquivo = @"C:\Projetos\Unimake_PV.pfx",
+                CertificadoSenha = "12345678"
+            };
+
+            var consultaConfigUF = new ServicoGNRe.ConsultaConfigUF(xml, configuracao);
+            consultaConfigUF.Executar();
+        }
+
+        private void bt_enviar_xml_gnre_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlGNRe.TLoteGNRE
+            {
+                Guias = new XmlGNRe.Guias
+                {
+                    TDadosGNRE = new List<XmlGNRe.TDadosGNRE>
+                    {
+                        new XmlGNRe.TDadosGNRE
+                        {
+                            Versao = "2.00",
+                            UfFavorecida = UFBrasil.PR,
+                            TipoGNRE = TipoGuiaGNRE.Simples,
+                            ContribuinteEmitente = new XmlGNRe.ContribuinteEmitente
+                            {
+                                Identificacao = new XmlGNRe.Identificacao
+                                {
+                                    CNPJ = "07666666000166",
+                                    IE = "9335665656"
+                                },
+                                RazaoSocial = "TESTE EMPRESA PARA ENVIO DA GNRE",
+                                Endereco = "XXX XXXXXXX XXXXX",
+                                Municipio = "04808",
+                                UF = UFBrasil.PR,
+                                CEP= "90399899",
+                                Telefone = "04456566566"
+                            },
+
+                            ItensGNRE = new XmlGNRe.ItensGNRE
+                            {
+                                Item = new List<XmlGNRe.Item>
+                                {
+                                    new XmlGNRe.Item
+                                    {
+                                        Receita = "100099",
+                                        DocumentoOrigem = new XmlGNRe.DocumentoOrigem
+                                        {
+                                            Tipo = "10",
+                                            Value = "41210807666666000166550010001234551123455553"
+                                        },
+                                        DataVencimento = DateTime.Now,
+                                        Valor = new List<XmlGNRe.Valor>
+                                        {
+                                            new XmlGNRe.Valor
+                                            {
+                                                Tipo = XmlGNRe.Valor.ItemValorTipo.Item11,
+                                                ValorOriginal = 116.24
+                                            }
+                                        },
+                                        ContribuinteDestinatario = new XmlGNRe.ContribuinteDestinatario
+                                        {
+                                            Identificacao = new XmlGNRe.Identificacao
+                                            {
+                                                IE = "1236566556"
+                                            },
+                                        },
+                                    }
+                                }
+                            },
+
+                            ValorGNRE = 30.00,
+                            DataPagamento = DateTime.Now
+                        }
+                    }
+                }
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.GNRE,
+                TipoEmissao = TipoEmissao.Normal,
+                CertificadoArquivo = @"C:\Projetos\Unimake_PV.pfx",
+                CertificadoSenha = "12345678",
+                TipoAmbiente = TipoAmbiente.Homologacao,
+                CodigoUF = 41 //Paraná
+            };
+
+            var loteRecepcao = new ServicoGNRe.LoteRecepcao(xml, configuracao);
+            loteRecepcao.Executar();
+
+            if (loteRecepcao.Result.SituacaoRecepcao.Codigo == "100")
+            {
+                //Aguardar 30 segundos para consultar o resultado do lote, é o que solicitam no manual.
+                //Thread.Sleep(30000);
+
+                var xmlCons = new XmlGNRe.TConsLoteGNRE
+                {
+                    Ambiente = TipoAmbiente.Homologacao,
+                    NumeroRecibo = loteRecepcao.RetornoWSXML.GetElementsByTagName("ns1:numero")[0].InnerText,
+                    IncluirPDFGuias = SimNaoLetra.Sim,
+                    IncluirArquivoPagamento = SimNaoLetra.Nao
+                };
+
+                var configCons = new Configuracao
+                {
+                    TipoDFe = TipoDFe.GNRE,
+                    TipoEmissao = TipoEmissao.Normal,
+                    CertificadoArquivo = @"C:\Projetos\Unimake_PV.pfx",
+                    CertificadoSenha = "12345678",
+                    TipoAmbiente = TipoAmbiente.Homologacao,
+                    CodigoUF = 41 //Paraná
+                };
+
+                var consultaResultadoLote = new ServicoGNRe.ConsultaResultadoLote(xmlCons, configCons);
+                consultaResultadoLote.Executar();
+
+                switch (consultaResultadoLote.Result.SituacaoProcess.Codigo)
+                {
+                    case "400": //Lote recebido, aguardando processamento
+                    case "401": //Lote em processamento
+                        //Tentar consultar mais tarde
+                        break;
+
+                    case "402": //Lote processado com sucesso
+                        try
+                        {
+                            consultaResultadoLote.GravarXmlRetorno(@"C:\ProjetoLivesDLL\testenfe", xmlCons.NumeroRecibo + "-ret-gnre.xml");
+                            consultaResultadoLote.GravarPDFGuia(@"C:\ProjetoLivesDLL\testenfe", "GuiaGNRE.pdf");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                        break;
+
+                    case "403": //Lote processado com pendências ou Lote com pendência de tempo de processamento. As Guias com situação 4 (campo < situacaoGuia > para a versão 2.00) podem levar em média 20 minutos, e no máximo 1 hora para serem processadas.
+                        //Analisar pendencias
+                        break;
+
+                    case "404": //Erro no processamento do lote.
+                        //Enviar lote novamente.
+                        break;
+                }
+            }
+        }
+
+        private void bt_consultar_resultado_lote_gnre_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlGNRe.TConsLoteGNRE
+            {
+                Ambiente = TipoAmbiente.Homologacao,
+                NumeroRecibo = "1234567890",
+                IncluirPDFGuias = SimNaoLetra.Sim,
+                IncluirArquivoPagamento = SimNaoLetra.Nao,
+                IncluirNoticias = SimNaoLetra.Nao
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.GNRE,
+                TipoEmissao = TipoEmissao.Normal,
+                CertificadoArquivo = @"C:\Projetos\Unimake_PV.pfx",
+                CertificadoSenha = "12345678",
+                TipoAmbiente = TipoAmbiente.Homologacao,
+                CodigoUF = 41 //Paraná
+            };
+
+            var consultaResultadoLote = new ServicoGNRe.ConsultaResultadoLote(xml, configuracao);
+            consultaResultadoLote.Executar();
+
+            switch (consultaResultadoLote.Result.SituacaoProcess.Codigo)
+            {
+                case "400": //Lote recebido, aguardando processamento
+                case "401": //Lote em processamento
+                    //Tentar consultar mais tarde
+                    break;
+
+                case "402": //Lote processado com sucesso.
+                    consultaResultadoLote.GravarXmlRetorno(@"C:\ProjetoLivesDLL\testenfe", xml.NumeroRecibo + "-ret-gnre.xml");
+                    consultaResultadoLote.GravarPDFGuia(@"C:\ProjetoLivesDLL\testenfe", "GuiaGNRE.pdf");
+                    break;
+
+                default:
+                    //Rejeições diversas
+                    break;
+            }
+        }
+
+        //Fim Serviços GNRE
+
 
         //Serviços Diversos
 
@@ -4122,7 +4544,7 @@ namespace TreinamentoDLL
             {
                 TipoDFe = TipoDFe.NFe,
                 TipoEmissao = TipoEmissao.Normal,
-                CertificadoArquivo = @"D:\projetos\UnimakePV.pfx",
+                CertificadoArquivo = @"C:\Projetos\Unimake_PV.pfx",
                 CertificadoSenha = "12345678"
             };
 
@@ -4238,7 +4660,7 @@ namespace TreinamentoDLL
 
                 if (distribuicaoDFe.Result.CStat == 138) // Documentos localizados e 137 = Não tem documentos
                 {
-                    var folder = @"c:\testenfe\doczip";
+                    var folder = @"C:\testenfe\doczip";
 
                     //Salvar XMLs do docZIP no HD
                     distribuicaoDFe.GravarXMLDocZIP(folder, true);
@@ -4302,7 +4724,7 @@ namespace TreinamentoDLL
                 switch (recepcaoEvento.Result.RetEvento[0].InfEvento.CStat)
                 {
                     case 135: //Evento homologado com vinculação da respectiva NFe
-                        recepcaoEvento.GravarXmlDistribuicao(@"c:\testenfe\");
+                        recepcaoEvento.GravarXmlDistribuicao(@"C:\testenfe\");
                         break;
 
                     default: //Evento rejeitado
@@ -4508,7 +4930,7 @@ namespace TreinamentoDLL
             autorizacao.Executar();
 
             //Gravar o arquivo do conteúdo retornado em uma pasta qualquer para ter em segurança. Pode-se também gravar na base de dados. Fica a critério de cada um.
-            File.WriteAllText(@"c:\testenfe\retorno\nomearquivoretorno.xml", autorizacao.RetornoWSString);
+            File.WriteAllText(@"C:\testenfe\retorno\arquivoretorno.xml", autorizacao.RetornoWSString);
 
             if (autorizacao.Result.ProtNFe != null)
             {
@@ -4521,7 +4943,7 @@ namespace TreinamentoDLL
                     case 301: //Uso Denegado: Irregularidade fiscal do emitente
                     case 302: //Uso Denegado: Irregularidade fiscal do destinatário
                     case 303: //Uso Denegado: Destinatário não habilitado a operar na UF
-                        autorizacao.GravarXmlDistribuicao(@"c:\testenfe\");
+                        autorizacao.GravarXmlDistribuicao(@"C:\testenfe\");
                         var docProcNFe = autorizacao.NfeProcResult.GerarXML(); //Gerar o Objeto para pegar a string e gravar em banco de dados
                         MessageBox.Show(autorizacao.NfeProcResult.NomeArquivoDistribuicao);
                         break;
@@ -4580,7 +5002,7 @@ namespace TreinamentoDLL
 
                 if (distribuicaoDFe.Result.CStat == 138) // Documentos localizados e 137 = Não tem documentos
                 {
-                    var folder = @"c:\testenfe\doczip";
+                    var folder = @"C:\testenfe\doczip";
 
                     //Salvar XMLs do docZIP no HD
                     distribuicaoDFe.GravarXMLDocZIP(folder, true);
@@ -4631,7 +5053,7 @@ namespace TreinamentoDLL
 
                 if (distribuicaoDFe.Result.CStat.Equals(138)) //138 = Documentos localizados e 137 = Não tem documentos
                 {
-                    var folder = @"d:\testenfe\doczip";
+                    var folder = @"C:\testenfe\doczip";
 
                     //Salvar os XMLs do docZIP no HD
                     distribuicaoDFe.GravarXMLDocZIP(folder);
@@ -4672,7 +5094,7 @@ namespace TreinamentoDLL
                 }
 
                 //Validar XML da ProcNFe - com falhas
-                doc.Load(@"D:\testenfe\41220306117473000150550010000000001111111111-procNFe.xml");
+                doc.Load(@"C:\ProjetoLivesDLL\recursos\41170706117473000150550010000463201612756527-nfe.xml");
 
                 schema = "NFe.procNFe_v4.00.xsd";
                 validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/nfe");
@@ -4687,7 +5109,7 @@ namespace TreinamentoDLL
                 }
 
                 //Validar XML da NFe
-                doc.Load(@"D:\testenfe\41220306117473000150550010000111111111111111-NFe.xml");
+                doc.Load(@"C:\ProjetoLivesDLL\recursos\41170706117473000150550010000463201612756527-nfe.xml");
 
                 schema = "NFe.nfe_v4.00.xsd";
                 validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/nfe");
@@ -4702,7 +5124,7 @@ namespace TreinamentoDLL
                 }
 
                 //Validar uma NFCe                
-                doc.Load(@"D:\testenfe\41170706117473000150550010000463191912756548-nfe.xml");
+                doc.Load(@"C:\ProjetoLivesDLL\recursos\41170706117473000150550010000463201612756527-nfe.xml");
 
                 schema = "NFe.nfe_v4.00.xsd";
                 validarSchema.Validar(doc, schema, "http://www.portalfiscal.inf.br/nfe");
@@ -4767,37 +5189,279 @@ namespace TreinamentoDLL
             }
         }
 
-        //Fim Serviços Diversos
-
-        //Serviços GNRE
-
-        private void bt_consulta_confg_uf_Click(object sender, EventArgs e)
+        private void bt_tratamento_excecoes_dll_Click(object sender, EventArgs e)
         {
-            var xml = new XmlGNRe.TConsultaConfigUf
+            var xml = new XmlNFe.ConsStatServ
             {
-                Ambiente = TipoAmbiente.Homologacao,
-                UF = UFBrasil.RS,
-                Receita = new XmlGNRe.Receita
+                Versao = "3.00", //Mudar de 4.00 para 3.00
+                CUF = UFBrasil.PR,
+                TpAmb = TipoAmbiente.Homologacao
+            };
+
+            var configuracao = new Configuracao
+            {
+                TipoDFe = TipoDFe.NFe,
+                TipoEmissao = TipoEmissao.Normal,
+                CertificadoDigital = CertificadoSelecionado
+            };
+
+            try
+            {
+                var statusServico = new ServicoNFe.StatusServico(xml, configuracao);
+                statusServico.Executar();
+
+                MessageBox.Show(statusServico.Result.CStat + " " + statusServico.Result.XMotivo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.GetLastException().Message);
+            }
+        }
+
+        private void bt_tratamento_excecoes_dll_2_Click(object sender, EventArgs e)
+        {
+            var xml = new XmlNFe.EnviNFe
+            {
+                Versao = "3.00",
+                IdLote = "000000000000001",
+                IndSinc = SimNao.Sim,
+                NFe = new List<XmlNFe.NFe>
                 {
-                    Courier = SimNaoLetra.Nao,
-                    Value = 100064
+                    new XmlNFe.NFe
+                    {
+                        InfNFe = new List<XmlNFe.InfNFe>
+                        {
+                            new XmlNFe.InfNFe
+                            {
+                                Versao = "4.00",
+                                Ide = new XmlNFe.Ide
+                                {
+                                    CUF = UFBrasil.MG,
+                                    NatOp = "VENDA PRODUC.DO ESTABELEC",
+                                    Mod = ModeloDFe.NFe,
+                                    Serie = 1,
+                                    NNF = 57990,
+                                    DhEmi = DateTime.Now,
+                                    DhSaiEnt = DateTime.Now,
+                                    TpNF = TipoOperacao.Saida,
+                                    IdDest = DestinoOperacao.OperacaoInterestadual,
+                                    CMunFG = 4118402,
+                                    TpImp = FormatoImpressaoDANFE.NormalRetrato,
+                                    TpEmis = TipoEmissao.Normal,
+                                    TpAmb = TipoAmbiente.Homologacao,
+                                    FinNFe = FinalidadeNFe.Normal,
+                                    IndFinal = SimNao.Sim,
+                                    IndPres = IndicadorPresenca.OperacaoPresencial,
+                                    ProcEmi = ProcessoEmissao.AplicativoContribuinte,
+                                    VerProc = "TESTE 1.00"
+                                },
+                                Emit = new XmlNFe.Emit
+                                {
+                                    CNPJ = "06117473000150",
+                                    XNome = "UNIMAKE SOLUCOES CORPORATIVAS LTDA",
+                                    XFant = "UNIMAKE - PARANAVAI",
+                                    EnderEmit = new XmlNFe.EnderEmit
+                                    {
+                                        XLgr = "RUA ANTONIO FELIPE",
+                                        Nro = "1500",
+                                        XBairro = "CENTRO",
+                                        CMun = 4118402,
+                                        XMun = "PARANAVAI",
+                                        UF = UFBrasil.PR,
+                                        CEP = "87704030",
+                                        Fone = "04431414900"
+                                    },
+                                    IE = "9032000301",
+                                    IM = "14018",
+                                    CNAE = "6202300",
+                                    CRT = CRT.SimplesNacional
+                                },
+                                Dest = new XmlNFe.Dest
+                                {
+                                    CNPJ = "04218457000128",
+                                    XNome = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL",
+                                    EnderDest = new XmlNFe.EnderDest
+                                    {
+                                        XLgr = "AVENIDA DA SAUDADE",
+                                        Nro = "1555",
+                                        XBairro = "CAMPOS ELISEOS",
+                                        CMun = 3543402,
+                                        XMun = "RIBEIRAO PRETO",
+                                        UF = UFBrasil.SP,
+                                        CEP = "14080000",
+                                        Fone = "01639611500"
+                                    },
+                                    IndIEDest = IndicadorIEDestinatario.ContribuinteICMS,
+                                    IE = "582614838110",
+                                    Email = "janelaorp@janelaorp.com.br"
+                                },
+                                Det = CriarDet(),
+                                Total = new XmlNFe.Total
+                                {
+                                    ICMSTot = new XmlNFe.ICMSTot
+                                    {
+                                        VBC = 0,
+                                        VICMS = 0,
+                                        VICMSDeson = 0,
+                                        VFCP = 0,
+                                        VBCST = 0,
+                                        VST = 0,
+                                        VFCPST = 0,
+                                        VFCPSTRet = 0,
+                                        VProd = 84.90,
+                                        VFrete = 0,
+                                        VSeg = 0,
+                                        VDesc = 0,
+                                        VII = 0,
+                                        VIPI = 0,
+                                        VIPIDevol = 0,
+                                        VPIS = 0,
+                                        VCOFINS = 0,
+                                        VOutro = 0,
+                                        VNF = 84.90,
+                                        VTotTrib = 12.63
+                                    }
+                                },
+                                Transp = new XmlNFe.Transp
+                                {
+                                    ModFrete = ModalidadeFrete.ContratacaoFretePorContaRemetente_CIF,
+                                    Vol = new List<XmlNFe.Vol>
+                                    {
+                                        new XmlNFe.Vol
+                                        {
+                                            QVol = 1,
+                                            Esp = "LU",
+                                            Marca = "UNIMAKE",
+                                            PesoL = 0.000,
+                                            PesoB = 0.000
+                                        }
+                                    }
+                                },
+                                Cobr = new XmlNFe.Cobr()
+                                {
+                                    Fat = new XmlNFe.Fat
+                                    {
+                                        NFat = "057910",
+                                        VOrig = 84.90,
+                                        VDesc = 0,
+                                        VLiq = 84.90
+                                    },
+                                    Dup = new List<XmlNFe.Dup>
+                                    {
+                                        new XmlNFe.Dup
+                                        {
+                                            NDup = "001",
+                                            DVenc = DateTime.Now,
+                                            VDup = 84.90
+                                        }
+                                    }
+                                },
+                                Pag = new XmlNFe.Pag
+                                {
+                                    DetPag = new List<XmlNFe.DetPag>
+                                    {
+                                        new XmlNFe.DetPag
+                                        {
+                                            IndPag = IndicadorPagamento.PagamentoVista,
+                                            TPag = MeioPagamento.Dinheiro,
+                                            VPag = 80.90
+                                        }
+                                    }
+                                },
+                                InfAdic = new XmlNFe.InfAdic
+                                {
+                                    InfCpl = ";CONTROLE: 0000241197;PEDIDO(S) ATENDIDO(S): 300474;Empresa optante pelo simples nacional, conforme lei compl. 128 de 19/12/2008;Permite o aproveitamento do credito de ICMS no valor de R$ 2,40, correspondente ao percentual de 2,83% . Nos termos do Art. 23 - LC 123/2006 (Resolucoes CGSN n. 10/2007 e 53/2008);Voce pagou aproximadamente: R$ 6,69 trib. federais / R$ 5,94 trib. estaduais / R$ 0,00 trib. municipais. Fonte: IBPT/empresometro.com.br 18.2.B A3S28F;",
+                                },
+                                InfRespTec = new XmlNFe.InfRespTec
+                                {
+                                    CNPJ = "06117473000150",
+                                    XContato = "Wandrey Mundin Ferreira",
+                                    Email = "wandrey@unimake.com.br",
+                                    Fone = "04431414900"
+                                }
+                            }
+                        }
+                    }
                 }
             };
 
             var configuracao = new Configuracao
             {
-                TipoDFe = TipoDFe.GNRE,
+                TipoDFe = TipoDFe.NFe,
                 TipoEmissao = TipoEmissao.Normal,
-                CertificadoArquivo = @"C:\Projetos\Unimake_PV.pfx",
-                CertificadoSenha = "12345678"
+                CertificadoDigital = CertificadoSelecionado
             };
 
-            var consultaConfigUF = new ServicoGNRe.ConsultaConfigUF(xml, configuracao);
-            consultaConfigUF.Executar();
+            try
+            {
+                var autorizacao = new ServicoNFe.Autorizacao(xml, configuracao);
+                autorizacao.Executar();
+            }
+            catch (ValidarXMLException ex)
+            {
+                MessageBox.Show(ex.GetLastException().Message);
+            }
+            catch (CertificadoDigitalException ex)
+            {
+                MessageBox.Show(ex.GetLastException().Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.GetLastException().Message);
+            }
         }
 
-        //Fim Serviços GNRE
+        private void bt_resgatando_info_certificado_Click(object sender, EventArgs e)
+        {
+            var certificadoDigital = new CertificadoDigital();
 
+            var certSel = certificadoDigital.AbrirTelaSelecao();
+
+            string infoCertificado = "Data validade inicial: " + certSel.NotBefore + "\r\n\r\n" +
+                "Data validade final: " + certSel.NotAfter + "\r\n\r\n" +
+                "Sujeito/Pessoa: " + certSel.Subject + "\r\n\r\n" +
+                "Emissor: " + certSel.Issuer + "\r\n\r\n" +
+                "Serial Number: " + certSel.SerialNumber + "\r\n\r\n" +
+                "Thumbprint: " + certSel.Thumbprint;
+
+            MessageBox.Show(infoCertificado);
+        }
+
+        private void bt_teste_internet_Click(object sender, EventArgs e)
+        {
+            //Testando a internet sem considerar servidor de proxy
+            if (!Unimake.Net.Utility.HasInternetConnection())
+            {
+                MessageBox.Show("Sem internet!!!");
+            }
+            else
+            {
+                MessageBox.Show("Internet ok");
+            }
+
+            //Testando a internet considerando que tem um servidor proxy na rede
+            var proxy = Unimake.Net.Utility.GetProxy("192.168.1.111", "UserTest", "PassTest", 123); //Passando o IP do servidor de proxy
+            if (!Unimake.Net.Utility.HasInternetConnection(proxy))
+            {
+                MessageBox.Show("Sem internet!!!");
+            }
+            else
+            {
+                MessageBox.Show("Internet ok");
+            }
+
+            var proxy2 = Unimake.Net.Utility.GetProxy("", "UserTest", "PassTest", 123, true); //Detectando servidor automaticamente
+            if (!Unimake.Net.Utility.HasInternetConnection(proxy2))
+            {
+                MessageBox.Show("Sem internet!!!");
+            }
+            else
+            {
+                MessageBox.Show("Internet ok");
+            }
+        }
+
+        //Fim Serviços Diversos
 
     }
 }
